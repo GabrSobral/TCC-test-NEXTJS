@@ -16,7 +16,7 @@ export function BottomMenu({ pageActive }: TabsProps){
         </button>
       </Link>
 
-      <Link href="/Activities">
+      <Link href="/Home">
         <button type='button' className={pageActive === "home" ? styles.active : ''}>
           <FiHome size={30} color={'#fff'}/>
           home

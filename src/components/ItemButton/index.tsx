@@ -10,6 +10,7 @@ interface ActivityItemProps{
   title : string,
   description : string,
   icons : "music" | "gym" | "medic" | "clock",
+  page : string
 }
 const icon = {
   music: <FiHeadphones size={30} color="#fff"/>,
@@ -18,9 +19,9 @@ const icon = {
   clock : <img src={Clock} alt="" style={{ width: 30, height: 30 }}/>
 }
 
-export function ActivityItem({ title, description, icons }: ActivityItemProps){
+export function Item({ title, description, icons, page }: ActivityItemProps){
   return(
-    <Link href={`/ActivityDetails?title=${title}&description=${description}&icons=${icons}`}>
+    <Link href={`/${page}`}>
       <div className={styles.container}>
         <div className={styles.icon}>
           {icon[icons]}
@@ -31,9 +32,7 @@ export function ActivityItem({ title, description, icons }: ActivityItemProps){
           <p>{description}</p>
         </div>
 
-        <button type="button">
-          <FiMoreVertical size={30} color="#fff"/>
-        </button>
+        <div/>
       </div>
     </Link>
   )

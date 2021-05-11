@@ -19,7 +19,7 @@ export default function Activities(){
       <AnimatePresence exitBeforeEnter>
         {isVisible && (
           <motion.main
-            key="modal"
+            key="Activities"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "fit-content"}}
             exit={{ opacity: 0}}

@@ -1,0 +1,69 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: var(--white);
+
+  main{
+    width: 100%;
+    padding: 1rem 2rem;
+    height: fit-content;
+  }
+  
+  .respirationContainer{
+    width: 100%;
+    height: calc(100vh - 6.5rem);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    span{
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-top: -5rem;
+    }
+
+    button{
+      border-radius: 50%;
+      border: 0;
+      outline: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--red-900);
+      padding: 1.25rem;
+      margin-bottom: 0.5rem;
+      font-size: 0;
+    }
+  }
+
+  .instruction{
+    margin-top: 1rem;
+    font-size: 2rem;
+    transition: 0.3s ease;
+  }
+
+  .circleRespirationContainer{
+    width: 22rem;
+    height: 22rem;
+    border-radius: 50%;
+    background-color: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 10px #00000035;
+
+    div{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--blue-300);
+
+      transition: 0.1s;
+    }
+  }
+}
