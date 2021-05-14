@@ -42,7 +42,7 @@ export default function SignUp() {
             <FaUnlock size={20} className={styles.icon}/>
           </div>
 
-        <Link href="/Activities">
+        <Link href="/Questionnaire">
           <button type='submit'>
             Cadastrar
             <FaSignInAlt size={24}/>

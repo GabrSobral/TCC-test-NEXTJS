@@ -27,6 +27,7 @@ export function Header({ GoBackIsActive} : HeaderProps){
           {GoBackIsActive && (
             <motion.button 
               onClick={() => router.back()}
+              key="GoBackKey"
               type='button'
               animate={{ 
                 display: "block",
@@ -44,6 +45,7 @@ export function Header({ GoBackIsActive} : HeaderProps){
         
           <motion.h2
             animate={GoBackIsActive ? "active" : "disable"}
+            key="GoBackWord"
             transition={{ 
               bounce: 0.5, 
               duration: 0.5, 
@@ -52,7 +54,8 @@ export function Header({ GoBackIsActive} : HeaderProps){
             variants={variants}
           >
             Olá, 
-          <motion.h2>Gabriel</motion.h2></motion.h2>
+          <motion.span>Gabriel</motion.span>
+          </motion.h2>
         </AnimatePresence>
       </motion.div>
 

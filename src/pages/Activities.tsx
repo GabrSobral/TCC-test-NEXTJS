@@ -46,6 +46,7 @@ export default function Activities(){
               description="Ouça uma música relaxante, para esvaziar a sua mente." 
               icons="gym"
             />
+            
           </section>
         </motion.main>
         )}

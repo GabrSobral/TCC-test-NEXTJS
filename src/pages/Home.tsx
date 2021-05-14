@@ -52,7 +52,7 @@ export default function Home(){
                 title="Ajuda nunca é demais"
                 description="Ajuda profissional sempre é a melhor escolha"
                 icons="medic"
-                page="Home"
+                page="PsychologistList"
               />
 
               <Item

@@ -1,0 +1,70 @@
+.container{
+  width: 100%;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 2rem;
+
+  .mapContainer{
+    width: 100%;
+    height: 14rem;
+    background-color: var(--blue-300);
+    z-index: 15;
+  }
+  .information{
+    position: relative;
+    height: 8.5rem;
+    width: 100%;
+    background-color: var(--green-300);
+    padding: 1rem;
+    padding-bottom: 3rem;
+
+    h3{
+      font-size: 1.75rem;
+ 
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .psychologistName{
+      font-size: 1.2rem;
+      color: var(--gray-100);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 4.7rem);
+      margin-bottom: 1.5rem;
+    }
+    .locale{
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      font-size: 0.9rem;
+      color: var(--gray-100);
+    }
+
+    button{
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+
+      width: 4rem;
+      height: 4rem;
+      border-radius: 7px;
+      font-size: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      outline: 0;
+      background-color: var(--green-300);
+
+      filter: brightness(1.2);
+    }
+  }
+}

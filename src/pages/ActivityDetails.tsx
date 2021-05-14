@@ -34,18 +34,20 @@ export default function ActivitiyDetails(){
     return(
       <motion.div className={styles.modalBackground}
         layout
+        key="modalSuccessBackground"
         initial={{ opacity: 0}}
         animate={{ opacity: 1}}
         exit={{ opacity: 0}}
       >
-        <AnimatePresence>
+        <AnimatePresence key="APSuccess">
           <motion.div className={styles.modalContainer}
             layout
             key="modalSuccess"
             animate={{
-              height : [0, 320], 
+              height : [0, 320],
+              width : ["0%", "90%"], 
               opacity:[0, 1]}}
-            exit={{ height: 0}}
+            exit={{ height: 0, width : "0%"}}
             transition={{ 
               delay: 0.25,
               bounce: 0.5, 
@@ -79,18 +81,20 @@ export default function ActivitiyDetails(){
     return(
       <motion.div className={styles.modalBackground}
         layout
+        key="modalExcludeBackground"
         initial={{ opacity: 0}}
         animate={{ opacity: 1}}
         exit={{ opacity: 0}}
       >
-        <AnimatePresence>
+        <AnimatePresence key="APExclude">
           <motion.div className={styles.modalContainer}
             layout
             key="modalExclude"
             animate={{
-              height : [0, 320], 
+              height : [0, 320],
+              width : ["0%", "90%"], 
               opacity:[0, 1]}}
-            exit={{ height: 0}}
+            exit={{ height: 0, width : "0%"}}
             transition={{ 
               delay: 0.25,
               bounce: 0.5, 
@@ -126,87 +130,86 @@ export default function ActivitiyDetails(){
   return(
     <div className={styles.container}>
       <Header GoBackIsActive={true}/>
-      <AnimatePresence exitBeforeEnter>
+
         {isModalSuccessVisible && (
-          <ModalSuccess/>
+        <AnimatePresence exitBeforeEnter>
+            <ModalSuccess key="ModalSuccessAP"/>
+        </AnimatePresence>
         )}
-      </AnimatePresence>
 
-      <AnimatePresence exitBeforeEnter>
         {isModalRemoveVisible && (
-          <ModalExclude/>
+        <AnimatePresence exitBeforeEnter>
+            <ModalExclude key="ModalExcludeAP"/>
+        </AnimatePresence>
         )}
-      </AnimatePresence>
 
-    <AnimateSharedLayout type="crossfade">
-      <AnimatePresence exitBeforeEnter>
-        {isVisible && (
+        <AnimateSharedLayout type="crossfade">
+          <AnimatePresence exitBeforeEnter>
+            {isVisible && (
 
-          <motion.main
-          layout
-          key="ActivityDetails"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "fit-content"}}
-          exit={{ opacity: 0, height: 0}}
-        >
-          <div className={styles.activityItem}>
-            <div className={styles.icon}>
-              {icon[String(icons)]}
-            </div>
-
-            <div className={styles.content}>
-              <h2>{title}</h2>
-              <p>{description}</p>
-            </div>
-          </div>
-
-          <div className={styles.ActivityDescription}>
-            <p>Ouça   músicas relaxantes, para esvaziar a sua mente.</p>
-
-            <p>Esse tipo de exercício é muito util para se livrar do estresse 
-              e dos pensamentos corriqueiros do dia a dia.</p>
-
-            <p>Você pode tentar meditar enquanto escuta as músicas, isso fará 
-              você ter um maior proveito do exercício.</p>
-
-          </div>
-          
-
-          <div className={styles.playerContainer}>
-            <span>Nós recomendamos esta música.</span>
-
-            <div className={styles.player}>
-              <button type="button">
-                <FiPlay size={30} color="#fff" fill="#fff"/>
-              </button>
-
-              <div className={styles.playerControllers}>
-                <span>00:00</span>
-                <div className={styles.slider}>
-                  <div></div>
+            <motion.main
+              layout
+              key="ActivityDetails"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "fit-content"}}
+              exit={{ opacity: 0, height: 0}}
+            >
+              <div className={styles.activityItem}>
+                <div className={styles.icon}>
+                  {icon[String(icons)]}
                 </div>
-                <span>03:56</span>
+
+                <div className={styles.content}>
+                  <h2>{title}</h2>
+                  <p>{description}</p>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div className={styles.buttons}>
-            <button type="button" onClick={() => setIsModalRemoveVisible(true)}>
-              <FiTrash size={28} color="#fff"/>
-              Excluir
-            </button>
+              <div className={styles.ActivityDescription}>
+                <p>Ouça   músicas relaxantes, para esvaziar a sua mente.</p>
 
-            <button type="button" onClick={Finish}>
-              <FiCheck size={28} color="#fff"/>
-              Terminei
-            </button>
-          </div>
-        </motion.main>
+                <p>Esse tipo de exercício é muito util para se livrar do estresse 
+                  e dos pensamentos corriqueiros do dia a dia.</p>
 
-      )}
-        
-      </AnimatePresence>
-    </AnimateSharedLayout>
+                <p>Você pode tentar meditar enquanto escuta as músicas, isso fará 
+                  você ter um maior proveito do exercício.</p>
+
+              </div>
+              
+
+              <div className={styles.playerContainer}>
+                <span>Nós recomendamos esta música.</span>
+
+                <div className={styles.player}>
+                  <button type="button">
+                    <FiPlay size={30} color="#fff" fill="#fff"/>
+                  </button>
+
+                  <div className={styles.playerControllers}>
+                    <span>00:00</span>
+                    <div className={styles.slider}>
+                      <div></div>
+                    </div>
+                    <span>03:56</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.buttons}>
+                <button type="button" onClick={() => setIsModalRemoveVisible(true)}>
+                  <FiTrash size={28} color="#fff"/>
+                  Excluir
+                </button>
+
+                <button type="button" onClick={Finish}>
+                  <FiCheck size={28} color="#fff"/>
+                  Terminei
+                </button>
+              </div>
+            </motion.main>
+          )}
+          </AnimatePresence>
+        </AnimateSharedLayout>
       <BottomMenu pageActive='activities'/>
     </div>
   )

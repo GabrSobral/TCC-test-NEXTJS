@@ -9,8 +9,8 @@
   main{
     width: 100%;
     padding: 1rem 2rem;
-    max-height: calc(100% - 9.5rem);
-    max-height: calc(100% - 9.5rem);
+    margin-top: 5rem;
+    max-height: calc(100% - 4.5rem);
 
     overflow-y: scroll;
 
@@ -201,6 +201,8 @@
     width: 90%;
     height: fit-content;
     padding: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
 
     display: flex;
     align-items: center;
@@ -219,12 +221,14 @@
       h2{
         font-size: 2rem;
         font-weight: 800;
+        white-space: normal;
       }
 
       p{
         color: var(--text);
         font-size: 1.15rem;
         text-align: center;
+        white-space: normal;
         margin: 0.5rem 0;
       }
     }

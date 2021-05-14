@@ -27,7 +27,7 @@ export default function SignIn(){
           <FaLock size={20} className={styles.icon}/>
         </div>
 
-        <Link href="/Activities">
+        <Link href="/Questionnaire">
           <button type='submit'>
             Entrar
             <FaSignInAlt size={24}/>

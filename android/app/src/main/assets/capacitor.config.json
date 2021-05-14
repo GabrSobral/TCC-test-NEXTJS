@@ -1,0 +1,13 @@
+{
+  "appId": "com.teste.app",
+  "appName": "Teste",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "out",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

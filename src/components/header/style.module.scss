@@ -1,13 +1,15 @@
 .container{
   width: 100%;
-  height: fit-content;
+  position: fixed;
+  top: 0;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
   background-color: var(--white);
   box-shadow: 1px 1px 1px 5px rgb(232, 232, 232);
-  z-index: 10;
+  z-index: 1000;
 
   .name{
     position: relative;
@@ -33,7 +35,7 @@
       transition: 0.2s ease;
       display: flex;
       font-weight: 400;
-      h2{
+      span{
         margin-left: 0.3rem;
         font-weight: 800;
       }
