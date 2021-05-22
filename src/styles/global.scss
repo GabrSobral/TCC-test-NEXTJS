@@ -59,7 +59,6 @@ body {
 }
 body, input, textarea, button, a{
  color: var(--gray-500);
- background-color: var(--gray-50);
  -webkit-tap-highlight-color: transparent;
  text-decoration: none;
 }
@@ -70,6 +69,10 @@ button{
   &:active{
     transform: scale(0.95);
     filter: brightness(0.9);
+  }
+  &:disabled{
+    opacity: 0.5;
+    cursor: default;
   }
 }
 h1, h2, h3, h4, h5, h6{

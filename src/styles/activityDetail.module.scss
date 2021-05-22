@@ -8,7 +8,7 @@
 
   main{
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem 1rem 6rem 1rem;
     margin-top: 5rem;
     max-height: calc(100% - 4.5rem);
 
@@ -72,77 +72,6 @@
       }
     }
 
-    .playerContainer{
-      display: flex;
-      flex-direction: column;
-
-      span:first-child{
-        font-size: 1.25rem;
-        margin: 1rem 0;
-        font-weight: 500;
-      }
-
-      .player{
-        width: 100%;
-        border-radius: 7px;
-
-        background-color: var(--blue-300);
-        height: 5rem;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.5rem;
-
-        button{
-          font-size: 0;
-          border-radius: 50%;
-          border: 0;
-          outline: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 4rem;
-          width: 4rem;
-          background-color: var(--blue-400);
-        }
-
-        .playerControllers{
-          display: flex;
-          align-items: center;
-          width: calc(100% - 4.5rem);
-
-          span{
-            color: var(--gray-50);
-
-            &:first-child{
-              margin-right: 1rem;
-            }
-            &:last-child{
-              margin-left: 1rem;
-            }
-          }
-
-          .slider{
-            width: 100%;
-            height: 0.25rem;
-            border-radius: 2px;
-            background-color: var(--gray-100);
-
-            div{
-              z-index: 10;
-              width: 1rem;
-              transform: translate(-50%, calc(-50% + 0.12rem));
-              height: 1rem;
-              border: 0.30rem solid var(--gray-100);
-              border-radius: 50%;
-              background-color: var(--green-300);
-            }
-          }
-        }
-      }
-    }
-
     .buttons{
       width: 100%;
       display: flex;
@@ -188,7 +117,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 15;
+  z-index: 9999;
 
   display: flex;
   align-items: center;

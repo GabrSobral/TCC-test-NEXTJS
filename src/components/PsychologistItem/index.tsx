@@ -1,15 +1,16 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import dynamic from 'next/dynamic'
-
 import { FiArrowRight } from 'react-icons/fi'
 import 'leaflet/dist/leaflet.css'
 
-import styles from './style.module.scss'
 import { useEffect, useMemo, useState } from "react";
 import LeafLetMap from "../Map";
+import Link from "next/link";
+
+import styles from './style.module.scss'
+import { useLoading } from '../../contexts/LoadingIcon';
 
 export function PsychologistItem(){
-  const [isBrowser, setIsBrowser] = useState(false);
+  const [ isBrowser, setIsBrowser ] = useState(false);
+  const { setLoadingTrue } = useLoading()
 
   useEffect(() => {
     setIsBrowser(true);
@@ -31,9 +32,11 @@ export function PsychologistItem(){
         <p className={styles.psychologistName}>Psicóloga Thaíssa Ribeiro</p>
         <span className={styles.locale}>Santos - SP</span>
 
-        <button type="button">
-          <FiArrowRight size={32} color="#fff"/>
-        </button>
+        <Link href="/PsychologistDetail">
+          <button type="button" onClick={setLoadingTrue}>
+            <FiArrowRight size={32} color="#fff"/>
+          </button>
+        </Link>
       </div>
     </div>
   )

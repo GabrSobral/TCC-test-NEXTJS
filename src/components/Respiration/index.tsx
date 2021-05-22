@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FiPlay, FiX } from "react-icons/fi";
 import { Timer } from "../Timer";
@@ -11,6 +11,7 @@ export function Respiration(){
   const [ isFinished, setIsFinished ] = useState(false)
   const [ isFirst, setIsFirst ] = useState(10)
   const [ message, setMessage ] = useState('Começar')
+  const y = useMotionValue(0)
 
   let timeOutFunction : NodeJS.Timeout
 
@@ -54,8 +55,8 @@ export function Respiration(){
   return(
         <motion.main
             key="Activities"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "fit-content"}}
+            initial={{ opacity: 0, height: 0, y: 50 }}
+            animate={{ opacity: 1, height: "fit-content", y: 0}}
             exit={{ opacity: 0}}
             className={styles.MainContainer}
           >

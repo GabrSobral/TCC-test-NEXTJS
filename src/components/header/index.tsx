@@ -1,14 +1,16 @@
 import styles from './style.module.scss'
 import { FiArrowLeft } from 'react-icons/fi'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
-import { FaTemperatureLow } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { NAME_KEY } from '../../services/auth'
 
 interface HeaderProps{
   GoBackIsActive : boolean
 }
 
 export function Header({ GoBackIsActive} : HeaderProps){
+  const [ name, setName ] = useState<string>("")
   const router = useRouter()
   const x = useMotionValue(0)
   const variants = {
@@ -19,6 +21,10 @@ export function Header({ GoBackIsActive} : HeaderProps){
       x: 0
     }
   }
+  useEffect(()=>{
+    setName(localStorage.getItem(NAME_KEY))
+  },[])
+
   return(
     <header className={styles.container}>
       <motion.div className={styles.name}>
@@ -54,7 +60,7 @@ export function Header({ GoBackIsActive} : HeaderProps){
             variants={variants}
           >
             Olá, 
-          <motion.span>Gabriel</motion.span>
+          <motion.span>{name}</motion.span>
           </motion.h2>
         </AnimatePresence>
       </motion.div>

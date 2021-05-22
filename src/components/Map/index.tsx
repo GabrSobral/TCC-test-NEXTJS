@@ -1,13 +1,15 @@
 import dynamic from "next/dynamic"
-
-
+import ReactLoading from 'react-loading';
 
 function LeafLetMap() {
+
   const Map = dynamic(
-    () => import('./map'), // replace '@components/map' with your component's location
+    () => import('./map'),
     { 
-      loading: () => <p>A map is loading</p>,
-      ssr: false // This line is important. It's what prevents server-side render
+      loading: () => (
+        <ReactLoading type={"spin"} color={"#1C74E9"} height={'20%'} width={'20%'} />
+      ),
+      ssr: false
     }
   )
   return <Map />

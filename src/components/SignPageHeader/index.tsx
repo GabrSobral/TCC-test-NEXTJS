@@ -1,6 +1,7 @@
 import styles from './style.module.scss'
 import { FaTimes } from 'react-icons/fa'
 import Link from 'next/link'
+import { useLoading } from '../../contexts/LoadingIcon'
 
 interface headerProps{
   title : string,
@@ -8,6 +9,7 @@ interface headerProps{
 }
 
 export function SignPageHeader({ title, button } : headerProps){
+  const {setLoadingTrue} = useLoading()
   return(
     <header className={styles.container}>
       <button type='button'>
@@ -17,7 +19,7 @@ export function SignPageHeader({ title, button } : headerProps){
     <h1>{title}</h1>
 
     <Link href={button == 'Entrar' ? '/SignIn' : '/'}>
-      <a>{button}</a>
+      <a onClick={setLoadingTrue}>{button}</a>
     </Link>
     </header>
   )

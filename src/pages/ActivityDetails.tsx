@@ -1,11 +1,13 @@
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
+import { AnimatePresence, AnimateSharedLayout, motion, useMotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { FiHeadphones, FiRadio, FiPlay, FiTrash, FiCheck } from 'react-icons/fi'
+import { useEffect, useMemo, useState } from 'react'
+import { FiHeadphones, FiRadio, FiTrash, FiCheck } from 'react-icons/fi'
 
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
-import Trophy from '../images/trophy.svg'
+import { LoadingStatus } from '../components/LoadingStatus'
+import { Player } from '../components/Player'
+import { useLoading } from '../contexts/LoadingIcon'
 
 import styles from '../styles/activityDetail.module.scss'
 
@@ -15,9 +17,11 @@ const icon = {
 }
 
 export default function ActivitiyDetails(){
-  const  [ isVisible, setIsVisible ] = useState(false)
-  const  [ isModalSuccessVisible, setIsModalSuccessVisible ] = useState(false)
-  const  [ isModalRemoveVisible, setIsModalRemoveVisible ] = useState(false)
+  const [ isVisible, setIsVisible ] = useState(false)
+  const [ isModalSuccessVisible, setIsModalSuccessVisible ] = useState(false)
+  const [ isModalRemoveVisible, setIsModalRemoveVisible ] = useState(false)
+  const { isLoading, setLoadingFalse, setLoadingTrue } = useLoading()
+  const y = useMotionValue(0)
   
   const router = useRouter()
   const { title, description, icons } = router.query
@@ -25,6 +29,7 @@ export default function ActivitiyDetails(){
   useEffect(()=> {
     setIsVisible(true)
   },[])
+  setLoadingFalse()
 
   function Finish(){
     setIsModalSuccessVisible(true)
@@ -127,9 +132,60 @@ export default function ActivitiyDetails(){
     )
   }
 
+  const memoizedDetails = useMemo(()=>(
+    <>
+      <div className={styles.activityItem}>
+        <div className={styles.icon}>
+          {icon[String(icons)]}
+        </div>
+
+        <div className={styles.content}>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </div>
+      </div>
+
+      <div className={styles.ActivityDescription}>
+        <p>Ouça   músicas relaxantes, para esvaziar a sua mente.</p>
+
+        <p>Esse tipo de exercício é muito util para se livrar do estresse 
+          e dos pensamentos corriqueiros do dia a dia.</p>
+
+        <p>Você pode tentar meditar enquanto escuta as músicas, isso fará 
+          você ter um maior proveito do exercício.</p>
+      </div>
+    </>
+  ),[])
+
+  const memoizedHeader = useMemo(()=>(
+    <Header GoBackIsActive={true}/>
+  ),[])
+
+  const memoizedBottomMenu = useMemo(()=>(
+    <BottomMenu pageActive='activities'/>
+  ),[])
+
+  const memoizedButtonsControl = useMemo(()=>(
+    <div className={styles.buttons}>
+      <button type="button" onClick={() => setIsModalRemoveVisible(true)}>
+        <FiTrash size={28} color="#fff"/>
+        Excluir
+      </button>
+
+      <button type="button" onClick={Finish}>
+        <FiCheck size={28} color="#fff"/>
+        Terminei
+      </button>
+    </div>
+  ),[])
+
+  const memoizedPlayer = useMemo(()=>(
+    <Player/>
+  ),[])
+
   return(
     <div className={styles.container}>
-      <Header GoBackIsActive={true}/>
+        {memoizedHeader}
 
         {isModalSuccessVisible && (
         <AnimatePresence exitBeforeEnter>
@@ -144,73 +200,28 @@ export default function ActivitiyDetails(){
         )}
 
         <AnimateSharedLayout type="crossfade">
+         
           <AnimatePresence exitBeforeEnter>
             {isVisible && (
 
-            <motion.main
-              layout
-              key="ActivityDetails"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "fit-content"}}
-              exit={{ opacity: 0, height: 0}}
-            >
-              <div className={styles.activityItem}>
-                <div className={styles.icon}>
-                  {icon[String(icons)]}
-                </div>
+              <motion.main
+                layout
+                key="ActivityDetails"
+                initial={{ opacity: 0, height: 0, y: 50 }}
+                animate={{ opacity: 1, height: "fit-content", y: 0}}
+                exit={{ opacity: 0, height: 0}}
+              >
+                {isLoading && (<LoadingStatus/>) }
+                
+                {memoizedDetails}
 
-                <div className={styles.content}>
-                  <h2>{title}</h2>
-                  <p>{description}</p>
-                </div>
-              </div>
-
-              <div className={styles.ActivityDescription}>
-                <p>Ouça   músicas relaxantes, para esvaziar a sua mente.</p>
-
-                <p>Esse tipo de exercício é muito util para se livrar do estresse 
-                  e dos pensamentos corriqueiros do dia a dia.</p>
-
-                <p>Você pode tentar meditar enquanto escuta as músicas, isso fará 
-                  você ter um maior proveito do exercício.</p>
-
-              </div>
-              
-
-              <div className={styles.playerContainer}>
-                <span>Nós recomendamos esta música.</span>
-
-                <div className={styles.player}>
-                  <button type="button">
-                    <FiPlay size={30} color="#fff" fill="#fff"/>
-                  </button>
-
-                  <div className={styles.playerControllers}>
-                    <span>00:00</span>
-                    <div className={styles.slider}>
-                      <div></div>
-                    </div>
-                    <span>03:56</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.buttons}>
-                <button type="button" onClick={() => setIsModalRemoveVisible(true)}>
-                  <FiTrash size={28} color="#fff"/>
-                  Excluir
-                </button>
-
-                <button type="button" onClick={Finish}>
-                  <FiCheck size={28} color="#fff"/>
-                  Terminei
-                </button>
-              </div>
-            </motion.main>
-          )}
+                {memoizedPlayer}
+                {memoizedButtonsControl}
+              </motion.main>
+            )}
           </AnimatePresence>
+          {memoizedBottomMenu}
         </AnimateSharedLayout>
-      <BottomMenu pageActive='activities'/>
     </div>
   )
 }

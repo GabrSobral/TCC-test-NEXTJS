@@ -4,7 +4,7 @@ const withImages = require('next-images')
 module.exports = withPWA({
   pwa: {
     dest: 'public',
-    disable : true,
+    disable : false,
     register: true,
     scope: '/app',
     sw: 'service-worker.js',
