@@ -1,4 +1,18 @@
 
+interface DesignedTo{
+  _id : string;
+  name : string;
+}
+
+interface ActivitiesProps{
+  _id : string;
+  designedTo : DesignedTo[];
+  title : string;
+  description: string;
+  body: string;
+  experience : number;
+}
+
 export function IndexedDB(){
   let database : IDBDatabase
   let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
@@ -66,4 +80,110 @@ export function AuthenticateDB(data : any){
       };
     }
   }
+}
+
+export function updateMyQuestionnaire(answers : Number[]){
+  let database : IDBDatabase
+  let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
+
+  request.onerror = () => {
+    alert("Você não habilitou minha web app para usar IndexedDB?!");
+  };
+
+  request.onsuccess = () => {
+    database = request.result;
+    let objectStoreUser = database.transaction(["usuario"], 'readwrite').objectStore("usuario")
+
+    const objectStoreUserGetAll = objectStoreUser.getAll()
+
+    objectStoreUserGetAll.onsuccess = ()=> {
+      if(objectStoreUserGetAll.result.length == 0){
+        return 
+      }
+      console.log("MEU ID")
+      console.log(objectStoreUserGetAll.result[0]._id)
+
+      const objectStoreUserGetOne = objectStoreUser.get(objectStoreUserGetAll.result[0]._id)
+
+      objectStoreUserGetOne.onsuccess = ()=> {
+        const user = objectStoreUserGetOne.result
+        const allAnswersString = []
+
+        answers.map(answer => {
+          allAnswersString.push(String(answer))
+        })
+
+        user.answers = allAnswersString
+        
+        objectStoreUser.put(user).onsuccess = () =>{
+          console.log("Conseguiu atualizar o questionario")
+        }
+
+      }
+      return objectStoreUserGetAll.result[0]._id
+    }
+  }
+}
+export function updateMyActivities(activities : ActivitiesProps[]){
+  let database : IDBDatabase
+  let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
+
+  request.onerror = () => {
+    alert("Você não habilitou minha web app para usar IndexedDB?!");
+  };
+
+  request.onsuccess = () => {
+    database = request.result;
+    let objectStoreUser = database.transaction(["usuario"], 'readwrite').objectStore("usuario")
+
+    const objectStoreUserGetAll = objectStoreUser.getAll()
+
+    objectStoreUserGetAll.onsuccess = ()=> {
+      if(objectStoreUserGetAll.result.length == 0){
+        return 
+      }
+      const objectStoreUserGetOne = objectStoreUser.get(objectStoreUserGetAll.result[0]._id)
+
+      objectStoreUserGetOne.onsuccess = ()=> {
+        const user = objectStoreUserGetOne.result
+        user.myCurrentActivities = activities
+        
+        objectStoreUser.put(user).onsuccess = () =>{
+          console.log("IndexedDB conseguiu atualizar as atividades")
+        }
+      }
+      return objectStoreUserGetAll.result[0]._id
+    }
+  }
+}
+
+export function getMyData(){
+  return new Promise((resolve, reject)=> {
+    let database : IDBDatabase
+    let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
+
+    request.onerror = () => {
+      alert("Você não habilitou minha web app para usar IndexedDB?!");
+    };
+
+    request.onsuccess = () => {
+      database = request.result;
+      let objectStoreUser = database.transaction(["usuario"], 'readonly').objectStore("usuario")
+
+      const objectStoreUserGetAll = objectStoreUser.getAll()
+
+      objectStoreUserGetAll.onsuccess = ()=> {
+        if(objectStoreUserGetAll.result.length == 0){
+          return 
+        }
+        const objectStoreUserGetOne = objectStoreUser.get(objectStoreUserGetAll.result[0]._id)
+
+        objectStoreUserGetOne.onsuccess = ()=> {
+          const user = objectStoreUserGetOne.result
+          return resolve(user)
+        }
+      }
+    }
+  })
+  
 }

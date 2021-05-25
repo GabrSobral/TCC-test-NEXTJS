@@ -3310,6 +3310,11 @@ react-circular-progressbar@^2.0.4:
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.0.4.tgz#5b04a9cf6be8c522c180e4e99ec6db63677335b0"
   integrity sha512-OfX0ThSxRYEVGaQSt0DlXfyl5w4DbXHsXetyeivmoQrh9xA9bzVPHNf8aAhOIiwiaxX2WYWpLDB3gcpsDJ9oww==
 
+react-detect-offline@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/react-detect-offline/-/react-detect-offline-2.4.4.tgz#be0abdbc214b28ce1cf001574f52393c23af8757"
+  integrity sha512-pdlTxMW9lPcTCW0QUK8FRgcNo/SRmCGrABLVSuAG91ELeTPOEFWj81dcf6sJ3IpDKdYaalbPUrw722/AmMMJOw==
+
 react-dom@17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"

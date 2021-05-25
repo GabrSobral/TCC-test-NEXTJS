@@ -4,13 +4,15 @@ import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { NAME_KEY } from '../../services/auth'
+import { useActivity } from '../../contexts/ActivityContext'
 
 interface HeaderProps{
   GoBackIsActive : boolean
 }
 
 export function Header({ GoBackIsActive} : HeaderProps){
-  const [ name, setName ] = useState<string>("")
+  // const [ name, setName ] = useState<string>("")
+  const { setUserName, name } = useActivity()
   const router = useRouter()
   const x = useMotionValue(0)
   const variants = {
@@ -22,7 +24,7 @@ export function Header({ GoBackIsActive} : HeaderProps){
     }
   }
   useEffect(()=>{
-    setName(localStorage.getItem(NAME_KEY))
+    setUserName()
   },[])
 
   return(

@@ -1,7 +1,7 @@
 import { AnimatePresence, AnimateSharedLayout, motion, useMotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { FiHeadphones, FiRadio, FiTrash, FiCheck } from 'react-icons/fi'
+import { FiHeadphones, FiTrash, FiCheck, FiBook } from 'react-icons/fi'
 
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
@@ -9,11 +9,26 @@ import { LoadingStatus } from '../components/LoadingStatus'
 import { Player } from '../components/Player'
 import { useLoading } from '../contexts/LoadingIcon'
 
+import Medic from '../images/medic.svg'
+import Clock from '../images/clock.svg'
+import Gym from '../images/Gym.svg'
+import Games from '../images/games.svg'
+import Food from '../images/food.svg'
+import Respiration from '../images/respiration.svg'
+import Meditation from '../images/meditation.svg'
+
 import styles from '../styles/activityDetail.module.scss'
 
 const icon = {
-  music: <FiHeadphones size={30} color="#fff"/>,
-  gym: <FiRadio size={30} color="#fff"/>
+  Musica: <FiHeadphones size={30} color="#fff"/>,
+  Exercicios: <img src={Gym} alt="" style={{ width: 30, height: 30 }}/>,
+  Games : <img src={Games} alt="" style={{ width: 30, height: 30 }}/>,
+  Meditacao: <img src={Meditation} alt="" style={{ width: 30, height: 30 }}/>,
+  Culinaria: <img src={Food} alt="" style={{ width: 30, height: 30 }}/>,
+  Respiracao: <img src={Respiration} alt="" style={{ width: 30, height: 30 }}/>,
+  Estudos: <FiBook size={30} color="#fff"/>,
+  medic : <img src={Medic} alt="" style={{ width: 30, height: 30 }}/>,
+  clock : <img src={Clock} alt="" style={{ width: 30, height: 30 }}/>
 }
 
 export default function ActivitiyDetails(){
@@ -21,10 +36,11 @@ export default function ActivitiyDetails(){
   const [ isModalSuccessVisible, setIsModalSuccessVisible ] = useState(false)
   const [ isModalRemoveVisible, setIsModalRemoveVisible ] = useState(false)
   const { isLoading, setLoadingFalse, setLoadingTrue } = useLoading()
+  const [ activity, setActivity ] = useState()
   const y = useMotionValue(0)
   
   const router = useRouter()
-  const { title, description, icons } = router.query
+  const { title, description, icons, content } = router.query
 
   useEffect(()=> {
     setIsVisible(true)
@@ -145,14 +161,12 @@ export default function ActivitiyDetails(){
         </div>
       </div>
 
-      <div className={styles.ActivityDescription}>
-        <p>Ouça   músicas relaxantes, para esvaziar a sua mente.</p>
-
-        <p>Esse tipo de exercício é muito util para se livrar do estresse 
-          e dos pensamentos corriqueiros do dia a dia.</p>
-
-        <p>Você pode tentar meditar enquanto escuta as músicas, isso fará 
-          você ter um maior proveito do exercício.</p>
+      <div 
+        className={styles.ActivityDescription} 
+        dangerouslySetInnerHTML={{
+          __html: content as string
+        }}
+      >
       </div>
     </>
   ),[])

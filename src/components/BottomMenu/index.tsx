@@ -1,34 +1,55 @@
 import styles from './styles.module.scss'
 import { FiList, FiHome, FiUser} from 'react-icons/fi'
 import Link from 'next/link'
+import { useLoading } from '../../contexts/LoadingIcon'
+import { useRouter } from 'next/router'
 
 interface TabsProps{
   pageActive : string
 }
 
 export function BottomMenu({ pageActive }: TabsProps){
+  const { setLoadingTrue } = useLoading()
+  const history = useRouter()
+
+  function navegate(page: string){
+    switch(page){
+      case "activities" : {
+        if(pageActive !== "activities"){
+          history.push("/Activities")
+          setLoadingTrue();
+        } break;
+      }
+      case "home" : {
+        if(pageActive !== "home"){
+          history.push("/Home")
+          setLoadingTrue();
+        } break;
+      }
+      case "me" : {
+        if(pageActive !== "me"){
+          history.push("/Activities")
+          setLoadingTrue();
+        } break;
+      }
+    }
+  }
   return(
     <footer className={styles.container}>
-      <Link href="/Activities">
-        <button type='button' className={pageActive === "activities" ? styles.active : ''}>
+        <button type='button' className={pageActive === "activities" ? styles.active : ''} onClick={()=> navegate("activities")}>
           <FiList size={30} color={'#fff'}/>
           Atividades
         </button>
-      </Link>
 
-      <Link href="/Home">
-        <button type='button' className={pageActive === "home" ? styles.active : ''}>
+        <button type='button' className={pageActive === "home" ? styles.active : ''} onClick={()=> navegate("home")}>
           <FiHome size={30} color={'#fff'}/>
           home
         </button>
-      </Link>
 
-      <Link href="/Activities">
-        <button type='button' className={pageActive === "me" ? styles.active : ''}>
+        <button type='button' className={pageActive === "me" ? styles.active : ''} onClick={()=> navegate("me")}>
           <FiUser size={30} color={'#fff'}/>
           Eu
         </button>
-      </Link>
     </footer>
   )
 }

@@ -11,8 +11,9 @@ import { api } from '../services/api';
 import styles from '../styles/Questionnaire.module.scss'
 import { useLoading } from '../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
+import { updateMyQuestionnaire } from '../services/IndexedDB';
 
-interface TypeProps{
+interface TypeProps{W
   _id : string;
   name : string;
 }
@@ -20,11 +21,6 @@ interface QuestionProps{
   body : string;
   _id : string;
   type : TypeProps[]
-}
-
-interface changeProps{
-  name : string;
-  value: string;
 }
 
 export default function Questionnaire({ data, questionsID }){
@@ -54,12 +50,12 @@ export default function Questionnaire({ data, questionsID }){
     if(change == null){ return }
     for (let i = 0; i < questionsID.length; i++) {
       switch(String(change.name)){
-        case String(questionsID[0]) : setQuestionOne(change.value)
-        case String(questionsID[1]) : setQuestionTwo(change.value)
-        case String(questionsID[2]) : setQuestionThree(change.value)
-        case String(questionsID[3]) : setQuestionFour(change.value)
-        case String(questionsID[4]) : setQuestionFive(change.value)
-        case String(questionsID[5]) : setQuestionSix(change.value)
+        case String(questionsID[0]) : setQuestionOne(change.value); break
+        case String(questionsID[1]) : setQuestionTwo(change.value); break
+        case String(questionsID[2]) : setQuestionThree(change.value); break
+        case String(questionsID[3]) : setQuestionFour(change.value); break
+        case String(questionsID[4]) : setQuestionFive(change.value); break
+        case String(questionsID[5]) : setQuestionSix(change.value); break
       }
     }
   },[change])
@@ -71,16 +67,27 @@ export default function Questionnaire({ data, questionsID }){
     <h2>Permita-nos conhecê-lo(a) <br/> melhor</h2>
   ),[])
 
-  function handleConfirm(){
-    const allAnswers = []
+  async function handleConfirm(){
+    setLoadingTrue()
+    const allAnswersNumber = []
 
-    allAnswers.push(Number(questionOne))
-    allAnswers.push(Number(questionTwo))
-    allAnswers.push(Number(questionThree))
-    allAnswers.push(Number(questionFour))
-    allAnswers.push(Number(questionFive))
-    allAnswers.push(Number(questionSix))
-    console.log(allAnswers)
+    allAnswersNumber.push(Number(questionOne))
+    allAnswersNumber.push(Number(questionTwo))
+    allAnswersNumber.push(Number(questionThree))
+    allAnswersNumber.push(Number(questionFour))
+    allAnswersNumber.push(Number(questionFive))
+    allAnswersNumber.push(Number(questionSix))
+
+    console.log(allAnswersNumber)
+
+    await api.post('/questionnaire', { answers : allAnswersNumber }).then(()=> {
+      updateMyQuestionnaire(allAnswersNumber)
+      return history.push("/Home")
+    }).catch((err)=>{
+      console.log(err.message)
+      return history.push("/Home")
+    })
+
   }
 
   return(
@@ -152,7 +159,19 @@ export default function Questionnaire({ data, questionsID }){
               </div>
             ))}
 
-              <button type="button" onClick={handleConfirm}>
+              <button 
+                type="button" 
+                onClick={handleConfirm}
+                disabled={
+                  questionOne &&
+                  questionTwo &&
+                  questionThree &&
+                  questionFour &&
+                  questionFive &&
+                  questionSix 
+                  ? false : true
+              }
+              >
                 Continuar
               </button>
           </motion.main>

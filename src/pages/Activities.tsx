@@ -1,20 +1,68 @@
-import { FiSmile } from 'react-icons/fi'
+import { useEffect, useMemo, useState } from 'react'
+import { GetServerSideProps } from 'next'
+import { FiSmile, FiFrown } from 'react-icons/fi'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Offline, Online } from "react-detect-offline";
+
 import { ActivityItem } from '../components/ActivityItem'
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
-import styles from '../styles/activities.module.scss'
-import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
-import { useEffect, useMemo, useState } from 'react'
 import { LoadingStatus } from '../components/LoadingStatus'
+
 import { useLoading } from '../contexts/LoadingIcon'
+import { useActivity } from '../contexts/ActivityContext'
+
+import { api } from '../services/api'
+import { getMyData, updateMyActivities } from '../services/IndexedDB'
+
+import styles from '../styles/activities.module.scss'
+
+interface DesignedTo{
+  _id : string;
+  name : string;
+}
+
+interface ActivitiesProps{
+  _id : string;
+  designedTo : DesignedTo[];
+  title : string;
+  description: string;
+  body: string;
+  experience : number;
+}
 
 export default function Activities(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
-  const y = useMotionValue(0)
+  // const [ activities, setActivities ] = useState<ActivitiesProps[]>()
+  const { activities, setActivitiesState } = useActivity()
 
   useEffect(()=> { setIsVisible(true) },[])
   setLoadingFalse()
+
+  async function getFromIDB(){
+    const user: any = await getMyData()
+    setActivitiesState(user.myCurrentActivities)
+  }
+  async function getFromAPI(){
+    const { data } = await api.get("/random-activities")
+    updateMyActivities(data)
+    setActivitiesState(data)
+  }
+
+  useEffect(()=>{
+    if(activities.length === 0){
+      if(Online){
+        getFromAPI()
+      } else if(Offline){
+        getFromIDB()
+      }
+    }
+  },[])
+  
+  useEffect(()=> {
+    console.log(activities)
+  },[activities])
 
   const memoizedHeader = useMemo(()=>(
     <Header GoBackIsActive={false}/>
@@ -35,19 +83,26 @@ export default function Activities(){
 
   const memoizedAllActivities = useMemo(()=>(
     <section className={styles.allActivities}>
-      <ActivityItem 
-        title="Ouça e relaxe..." 
-        description="Ouça uma música relaxante, para esvaziar a sua mente." 
-        icons="music"
-      />
-
-      <ActivityItem 
-        title="Exercite-se..." 
-        description="Ouça uma música relaxante, para esvaziar a sua mente." 
-        icons="gym"
-      />
+      {activities.length !== 0 ? (
+        activities.map(activity => (
+          <ActivityItem 
+            key={activity._id}
+            title={activity.title} 
+            description={activity.description}
+            icons={activity.designedTo[0].name}
+            content={activity.body}
+          />
+        ))
+      )
+      : (
+        <div className={styles.dontHaveActivitiesContainer}>
+          <FiFrown color="#bbb" size={86}/>
+          <span>Não há atividades para realizar.</span>
+        </div>
+      )
+    }
     </section>
-  ),[])
+  ),[activities])
 
   const memoizedBottomMenu = useMemo(()=>(
     <BottomMenu pageActive='activities'/>
