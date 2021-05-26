@@ -10,15 +10,24 @@ import 'react-circular-progressbar/dist/styles.css';
 import { Item } from '../components/ItemButton';
 import { LoadingStatus } from '../components/LoadingStatus';
 import { useLoading } from '../contexts/LoadingIcon';
+import { useRouter } from 'next/router';
+import { useActivity } from '../contexts/ActivityContext';
 
 export default function Home(){
+  const history = useRouter()
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
   const [ percentage , setPercentage ] = useState(60)
+  const { activitiesToday } = useActivity()
   const y = useMotionValue(0)
 
   setLoadingFalse()
-  useEffect(()=> { setIsVisible(true)},[])
+  useEffect(()=> { 
+    setIsVisible(true)
+    const percentegeCalculated = Math.round((activitiesToday*100) / 5)
+    setPercentage(percentegeCalculated)
+    history.prefetch("/Clock")
+  },[])
 
   const memoizedHeader = useMemo(()=>(
     <Header GoBackIsActive={false}/>
@@ -31,7 +40,7 @@ export default function Home(){
       <div className={styles.progressBarContainer}>
         <CircularProgressbar 
           value={percentage} 
-          text={`3/5`}
+          text={`${activitiesToday}/5`}
           className={styles.circularProgressBar}
           strokeWidth={3} 
           styles={buildStyles({
@@ -79,7 +88,6 @@ export default function Home(){
             animate={{ opacity: 1, height: "fit-content", y: 0}}
             exit={{ opacity: 0}}
           >
-            
             {memoizedProgressBar}
 
             {memoizedPagesControl}

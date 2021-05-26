@@ -91,6 +91,7 @@ export default function Activities(){
             description={activity.description}
             icons={activity.designedTo[0].name}
             content={activity.body}
+            id={activity._id}
           />
         ))
       )

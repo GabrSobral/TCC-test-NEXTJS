@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { FaUser, FaEnvelope, FaLock, FaUnlock, FaSignInAlt } from 'react-icons/fa'
 import { motion, useMotionValue } from 'framer-motion';
+import Cookies from 'js-cookie'
 
 import { SignPageHeader } from "../components/SignPageHeader";
 import { LoadingStatus } from '../components/LoadingStatus';
@@ -10,7 +11,7 @@ import { useLoading } from '../contexts/LoadingIcon';
 import { api } from '../services/api'
 
 import styles from '../styles/app.module.scss'
-import { login, NAME_KEY } from "../services/auth";
+import { getToken, login, NAME_KEY, TOKEN_KEY } from "../services/auth";
 import { useRouter } from "next/router";
 
 export default function SignUp() {
@@ -21,15 +22,19 @@ export default function SignUp() {
   const [ confirmPassword, setConfirmPassword ] = useState<string>('')
   const [ isFilled, setIsFilled ] = useState(true)
   const { setLoadingTrue, isLoading, setLoadingFalse, closeLoading } = useLoading()
-
   const history = useRouter()
 
   const y = useMotionValue(0)
   setLoadingFalse()
 
   useEffect(()=> {
+    if(getToken()){
+      history.replace("/Home")
+      return
+    }
     history.prefetch('/Questionnaire')
     history.prefetch('/SignIn')
+    history.prefetch('/Home')
   },[])
   useEffect(()=>{
     name && email && password && confirmPassword ? setIsFilled(false) : setIsFilled(true)

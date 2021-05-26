@@ -18,7 +18,9 @@ interface ActivityContextData{
   activities: ActivitiesProps[];
   setActivitiesState: (values:  ActivitiesProps[]) => void;
   name: string;
-  setUserName: ()=> void
+  setUserName: ()=> void;
+  activitiesToday: number;
+  setActivitiesTodayState: (num: number)=> void;
 }
 
 interface ActivityProvider{
@@ -29,9 +31,12 @@ export const ActivityContext = createContext({} as ActivityContextData)
 
 export function ActivityProvider({children} : ActivityProvider){
   const [ activities, setActivities ] = useState<ActivitiesProps[]>([])
+  const [ activitiesToday, setActivitiesToday ] = useState(0)
   const [ name, setName ] = useState("")
 
   function setUserName(){ setName(localStorage.getItem(NAME_KEY)) }
+
+  function setActivitiesTodayState(num: number){ setActivitiesToday(num) }
 
   function setActivitiesState(values : ActivitiesProps[]){
     setActivities(values)
@@ -43,7 +48,9 @@ export function ActivityProvider({children} : ActivityProvider){
         activities,
         setActivitiesState,
         name,
-        setUserName
+        setUserName,
+        activitiesToday,
+        setActivitiesTodayState
       }}
     >
       {children}

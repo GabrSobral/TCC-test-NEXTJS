@@ -18,6 +18,9 @@ import Respiration from '../images/respiration.svg'
 import Meditation from '../images/meditation.svg'
 
 import styles from '../styles/activityDetail.module.scss'
+import { api } from '../services/api'
+import { finishMyActivity } from '../services/IndexedDB'
+import { useActivity } from '../contexts/ActivityContext'
 
 const icon = {
   Musica: <FiHeadphones size={30} color="#fff"/>,
@@ -36,19 +39,49 @@ export default function ActivitiyDetails(){
   const [ isModalSuccessVisible, setIsModalSuccessVisible ] = useState(false)
   const [ isModalRemoveVisible, setIsModalRemoveVisible ] = useState(false)
   const { isLoading, setLoadingFalse, setLoadingTrue } = useLoading()
-  const [ activity, setActivity ] = useState()
-  const y = useMotionValue(0)
+  const { activities, setActivitiesState, setActivitiesTodayState } = useActivity()
+
   
   const router = useRouter()
-  const { title, description, icons, content } = router.query
+  const { title, description, icons, content, id } = router.query
 
   useEffect(()=> {
     setIsVisible(true)
   },[])
   setLoadingFalse()
 
-  function Finish(){
+  async function Finish(){
+    const newActivities = activities
+    setLoadingTrue()
+
+    await api.patch(`/my-activities/${id}`)
+    finishMyActivity(String(id))
+
+    newActivities.map((activity, index) => {
+      if(activity._id === id){
+        newActivities.splice(index, 1)
+      }
+    })
+    setActivitiesTodayState(5 - newActivities.length)
+    setActivitiesState(newActivities)
     setIsModalSuccessVisible(true)
+  }
+
+  async function ExcludeActivity(){
+    const newActivities = activities
+    setLoadingTrue()
+
+    await api.patch(`/delete-my-activitiy/${id}`)
+    finishMyActivity(String(id))
+
+    newActivities.map((activity, index) => {
+      if(activity._id === id){
+        newActivities.splice(index, 1)
+      }
+    })
+    setActivitiesState(newActivities)
+    setIsModalRemoveVisible(false)
+    setTimeout(() => router.push('/Activities'), 300)
   }
 
   function ModalSuccess(){
@@ -135,10 +168,7 @@ export default function ActivitiyDetails(){
 
                 <motion.button 
                   type="button" 
-                  onClick={() => {
-                    setIsModalRemoveVisible(false)
-                    setTimeout(() => router.push('/Activities'), 300)
-                  }}>
+                  onClick={ExcludeActivity}>
                   Sim
                 </motion.button>
             </motion.div>
