@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import ReactLoading from 'react-loading'
 
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
@@ -12,20 +13,32 @@ import { LoadingStatus } from '../components/LoadingStatus';
 import { useLoading } from '../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
 import { useActivity } from '../contexts/ActivityContext';
+import { getMyData } from '../services/IndexedDB'
 
 export default function Home(){
   const history = useRouter()
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
   const [ percentage , setPercentage ] = useState(60)
-  const { activitiesToday } = useActivity()
+  const { activitiesToday, setActivitiesTodayState } = useActivity()
   const y = useMotionValue(0)
 
+  async function getMyDataIDB(){
+    const data: any = await getMyData()
+    console.log(data.activitiesFinishedToday)
+    setActivitiesTodayState(data.activitiesFinishedToday)
+  }
   setLoadingFalse()
+  
   useEffect(()=> { 
+    getMyDataIDB()
     setIsVisible(true)
     const percentegeCalculated = Math.round((activitiesToday*100) / 5)
     setPercentage(percentegeCalculated)
+    console.log(activitiesToday)
+  },[activitiesToday])
+
+  useEffect(()=>{
     history.prefetch("/Clock")
   },[])
 
@@ -40,9 +53,9 @@ export default function Home(){
       <div className={styles.progressBarContainer}>
         <CircularProgressbar 
           value={percentage} 
-          text={`${activitiesToday}/5`}
+          text={activitiesToday >= 0 ? `${activitiesToday}/5` : "..."}
           className={styles.circularProgressBar}
-          strokeWidth={3} 
+          strokeWidth={3}
           styles={buildStyles({
             pathColor: "#54A06A",
             textColor: "#434343"

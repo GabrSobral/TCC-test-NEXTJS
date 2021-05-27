@@ -33,7 +33,7 @@ interface ActivitiesProps{
 
 export default function Activities(){
   const [ isVisible, setIsVisible ] = useState(false)
-  const { isLoading, setLoadingFalse } = useLoading()
+  const { isLoading, setLoadingFalse, setLoadingTrue, closeLoading } = useLoading()
   // const [ activities, setActivities ] = useState<ActivitiesProps[]>()
   const { activities, setActivitiesState } = useActivity()
 
@@ -41,33 +41,59 @@ export default function Activities(){
   setLoadingFalse()
 
   async function getFromIDB(){
+    setLoadingTrue()
     const user: any = await getMyData()
+    if(user.myCurrentActivities.message){
+      closeLoading()
+      return
+    }
     setActivitiesState(user.myCurrentActivities)
+    closeLoading()
   }
   async function getFromAPI(){
-    const { data } = await api.get("/random-activities")
-    updateMyActivities(data)
-    setActivitiesState(data)
+    setLoadingTrue()
+    await api.get("/random-activities")
+    .then(({data}) => {
+      async function handelAPI(){
+        if(data.message){
+          const user: any = await getMyData()
+    
+          if(user.myCurrentActivities.message){
+            closeLoading()
+            return
+          }
+    
+          setActivitiesState(user.myCurrentActivities)
+          closeLoading()
+          return
+        }
+        updateMyActivities(data)
+        setActivitiesState(data)
+        closeLoading()
+      }
+      handelAPI()
+    })
+    .catch(err => {
+      getFromIDB()
+      return
+    })
   }
 
   useEffect(()=>{
     if(activities.length === 0){
-      if(Online){
+      if(navigator.onLine){
         getFromAPI()
-      } else if(Offline){
+        console.log("online")
+      } else{
         getFromIDB()
+        console.log("offline")
       }
     }
   },[])
-  
-  useEffect(()=> {
-    console.log(activities)
-  },[activities])
 
   const memoizedHeader = useMemo(()=>(
     <Header GoBackIsActive={false}/>
   ),[])
-
   const memoizedMainTitle = useMemo(()=> (
     <div className={styles.activityTitle}>
       <div className={styles.icon}>
@@ -101,7 +127,7 @@ export default function Activities(){
           <span>Não há atividades para realizar.</span>
         </div>
       )
-    }
+      }
     </section>
   ),[activities])
 

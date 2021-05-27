@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic"
 import ReactLoading from 'react-loading';
 
-function LeafLetMap() {
+function LeafLetMap({latitude, longitude}) {
 
   const Map = dynamic(
     () => import('./map'),
@@ -12,7 +12,7 @@ function LeafLetMap() {
       ssr: false
     }
   )
-  return <Map />
+  return <Map latitude={latitude} longitude={longitude}/>
 }
 
 export default LeafLetMap

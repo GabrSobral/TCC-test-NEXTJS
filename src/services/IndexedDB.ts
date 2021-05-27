@@ -146,6 +146,7 @@ export function updateMyActivities(activities : ActivitiesProps[]){
       objectStoreUserGetOne.onsuccess = ()=> {
         const user = objectStoreUserGetOne.result
         user.myCurrentActivities = activities
+        user.activitiesFinishedToday = 0
         
         objectStoreUser.put(user).onsuccess = () =>{
           console.log("IndexedDB conseguiu atualizar as atividades")
@@ -186,45 +187,48 @@ export function getMyData(){
   
 }
 export function finishMyActivity(id : string){
-  let database : IDBDatabase
-  let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
+  return new Promise((resolve, reject)=> {
+    let database : IDBDatabase
+    let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
 
-  request.onerror = () => {
-    alert("Você não habilitou minha web app para usar IndexedDB?!");
-  };
+    request.onerror = () => {
+      alert("Você não habilitou minha web app para usar IndexedDB?!");
+    };
 
-  request.onsuccess = () => {
-    database = request.result;
-    let objectStoreUser = database.transaction(["usuario"], 'readwrite').objectStore("usuario")
+    request.onsuccess = () => {
+      database = request.result;
+      let objectStoreUser = database.transaction(["usuario"], 'readwrite').objectStore("usuario")
 
-    const objectStoreUserGetAll = objectStoreUser.getAll()
+      const objectStoreUserGetAll = objectStoreUser.getAll()
 
-    objectStoreUserGetAll.onsuccess = ()=> {
-      if(objectStoreUserGetAll.result.length == 0){
-        return 
-      }
-      const objectStoreUserGetOne = objectStoreUser.get(objectStoreUserGetAll.result[0]._id)
+      objectStoreUserGetAll.onsuccess = ()=> {
+        if(objectStoreUserGetAll.result.length == 0){
+          return 
+        }
+        const objectStoreUserGetOne = objectStoreUser.get(objectStoreUserGetAll.result[0]._id)
 
-      objectStoreUserGetOne.onsuccess = ()=> {
-        const user = objectStoreUserGetOne.result
-        const myActvityes = user.myCurrentActivities
+        objectStoreUserGetOne.onsuccess = ()=> {
+          const user = objectStoreUserGetOne.result
+          const myActvityes = user.myCurrentActivities
 
-        myActvityes.map((activity: ActivitiesProps, index: number )=> {
-          if(activity._id === id){
-            myActvityes.splice(index, 1)
+          myActvityes.map((activity: ActivitiesProps, index: number )=> {
+            if(activity._id === id){
+              myActvityes.splice(index, 1)
+            }
+          })
+          user.myCurrentActivities = myActvityes
+          user.activitiesFinishedToday += 1
+          user.allAtivitiesFinished += 1
+          
+          objectStoreUser.put(user).onsuccess = () =>{
+            console.log("IndexedDB conseguiu atualizar as atividades")
+            return resolve(user)
           }
-        })
-        user.myCurrentActivities = myActvityes
-        user.activitiesFinishedToday += 1
-        user.allAtivitiesFinished += 1
-        
-        objectStoreUser.put(user).onsuccess = () =>{
-          console.log("IndexedDB conseguiu atualizar as atividades")
         }
       }
-      return objectStoreUserGetAll.result[0]._id
     }
-  }
+  })
+  
 }
 export function deleteMyActivity(id : string){
   let database : IDBDatabase
@@ -256,7 +260,6 @@ export function deleteMyActivity(id : string){
           }
         })
         user.myCurrentActivities = myActvityes
-        user.activitiesFinishedToday
         
         objectStoreUser.put(user).onsuccess = () =>{
           console.log("IndexedDB conseguiu atualizar as atividades")

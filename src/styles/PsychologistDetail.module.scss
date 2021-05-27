@@ -27,7 +27,7 @@
         align-items: center;
         justify-content: center;
       }
-      button{
+      .googleRoute{
         position: absolute;
         bottom: 0.8rem;
 
@@ -35,6 +35,7 @@
         transform: translateX(-50%);
         background-color: var(--blue-300);
         width: 90%;
+        text-align: center;
         padding: 1rem;
         border-radius: 7px;
         border: 0;
@@ -42,6 +43,11 @@
         font-size: 1.25rem;
         color: var(--white);
         z-index: 15;
+        transition: transform 0.3s ease;
+
+        &:active{
+          filter: brightness(0.8);
+        }
       }
     }
 

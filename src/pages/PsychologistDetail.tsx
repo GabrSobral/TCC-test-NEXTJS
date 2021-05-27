@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
@@ -6,6 +7,17 @@ import { LoadingStatus } from '../components/LoadingStatus'
 import LeafletMap from '../components/Map'
 
 import styles from '../styles/PsychologistDetail.module.scss'
+
+interface Clinic{
+  openings_hours: string[];
+  psychologist: string[];
+  name: string;
+  description: string;
+  phone_number: string;
+  email: string;
+  latitude: number;
+  longitude: number;
+}
 
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)
@@ -15,6 +27,20 @@ export default function PsychologistList(){
   useEffect(()=> {
     setIsVisible(true)
   },[])
+
+  const router = useRouter()
+  const {   
+    opening_hours,
+    psychologist,
+    name,
+    description,
+    phone_number,
+    email,
+    latitude,
+    longitude 
+  }: any = router.query 
+
+  console.log(opening_hours, psychologist)
 
   return(
     <div className={styles.container}>
@@ -32,40 +58,41 @@ export default function PsychologistList(){
           >
           <div className={styles.mapContainer}>
             <div className={styles.map}>
-              <LeafletMap/>
+              <LeafletMap latitude={latitude} longitude={longitude}/>
             </div> 
-            <button type="button">
-              Ver rota no Google Maps
-            </button>
+            <a className={styles.googleRoute} target='_blank' rel='noopener noreferrer' href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}>
+              Ver rotas no Google Maps
+            </a>
           </div>
 
           <div className={styles.informationContainer}>
-            <h2>Consultório Teste</h2>
-            <p>Atendemos jovens e adultos, que sofrem com depressão e ansiedade.</p>
-            <p>Estamos na rua Conselheiro Nébias 32, estamos prontos para ajudá-lo.</p>
+            <h2>{name}</h2>
+            <p>{description}</p>
           </div>
 
           <div className={styles.informationContainer}>
             <h3>Contato</h3>
-            <p>(13)3227-7432</p>
+            <p>{phone_number}</p>
           </div>
 
           <div className={styles.informationContainer}>
             <h3>Email</h3>
-            <p>Consultorio_teste@teste.com</p>
+            <p>{email}</p>
           </div>
 
           <div className={styles.informationContainer}>
             <h3>Atendimento</h3>
-            <p>Das 11h às 18h de segunda à sexta.</p>
-            <p>Das 13h às 16h aos finais de semana.</p>
+            {opening_hours.map((hour: string, index: number) => (
+              <p key={index}>{hour}</p>
+            ))}
           </div>
 
           <div className={styles.informationContainer}>
             <h3>Psicólogos(as)</h3>
             <ul>
-              <li>Psicoóga Thaíssa Ribeiro</li>
-              <li>Psicólogo Marcelo Rodrigues Cardoso</li>
+              {psychologist.map((psychologistName: string, index: number) => (
+                <li key={index}>{psychologistName}</li>
+              ))}
             </ul>
           </div>
           </motion.main>
