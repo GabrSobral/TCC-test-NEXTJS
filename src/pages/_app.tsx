@@ -51,9 +51,9 @@ function MyApp({ Component, pageProps }) {
       });
     }
     IndexedDB()
-    SyncData()
+    // SyncData()
   },[])
-  
+
   return(
     <>
       <Head>
