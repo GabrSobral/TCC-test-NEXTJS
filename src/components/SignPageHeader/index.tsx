@@ -10,9 +10,15 @@ interface headerProps{
 
 export function SignPageHeader({ title, button } : headerProps){
   const {setLoadingTrue} = useLoading()
+  
+  function closeWindow(){
+    window.opener = null;
+    window.open('', '_self');
+    window.close();
+  }
   return(
     <header className={styles.container}>
-      <button type='button'>
+      <button type='button' onClick={closeWindow}>
         <FaTimes size={24}/>
       </button>
 

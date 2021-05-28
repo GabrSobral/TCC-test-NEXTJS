@@ -56,7 +56,7 @@ export default function SignIn(){
       Entrar
       <FaSignInAlt size={24}/>
     </button>
-  ),[isFilled])
+  ),[isFilled, email, password])
 
   const memoizedHeader = useMemo(()=> (
     <SignPageHeader title='Entrar' button='Cadastrar'/>
@@ -72,11 +72,19 @@ export default function SignIn(){
 
       const fullName = String(response.data.user.name)
       const firstName = fullName.split(" ")
-      
-      localStorage.setItem(NAME_KEY, firstName[0]);
-      AuthenticateDB(response.data.user)
-      return history.push('/Questionnaire')
-      
+
+      async function storageData(){
+        localStorage.setItem(NAME_KEY, firstName[0]);
+        
+        const user: any = await AuthenticateDB(response.data.user)
+
+        if(user.answers.length === 0){
+          return history.push('/Questionnaire')
+        } else {
+          return history.push('/Home')
+        }
+      }
+      storageData()
     }).catch((err) => {
       closeLoading()
       console.log(err)

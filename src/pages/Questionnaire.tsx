@@ -11,9 +11,9 @@ import { api } from '../services/api';
 import styles from '../styles/Questionnaire.module.scss'
 import { useLoading } from '../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
-import { updateMyQuestionnaire } from '../services/IndexedDB';
+import { getMyData, updateMyQuestionnaire } from '../services/IndexedDB';
 
-interface TypeProps{W
+interface TypeProps{
   _id : string;
   name : string;
 }
@@ -39,11 +39,21 @@ export default function Questionnaire({ data, questionsID }){
   const [ change, setChange ] = useState<any>(null)
 
   setLoadingFalse()
-  useEffect(()=> {
+
+  async function getMyDataAndVerifyIfIAlreadyAnsweredTheQuestionnaire(){
+    const myData: any = await getMyData()
+
+    if(myData.answers.length !== 0){
+      history.replace('/Home')
+      return
+    }
     setIsVisible(true)
     setQuestions(data)
     history.prefetch('/Home')
     history.prefetch("/Activities")
+  }
+  useEffect(()=> {
+    getMyDataAndVerifyIfIAlreadyAnsweredTheQuestionnaire()
   },[])
 
   useEffect(()=> {
@@ -78,8 +88,6 @@ export default function Questionnaire({ data, questionsID }){
     allAnswersNumber.push(Number(questionFive))
     allAnswersNumber.push(Number(questionSix))
 
-    console.log(allAnswersNumber)
-
     await api.post('/questionnaire', { answers : allAnswersNumber }).then(()=> {
       updateMyQuestionnaire(allAnswersNumber)
       return history.push("/Home")
@@ -87,7 +95,6 @@ export default function Questionnaire({ data, questionsID }){
       console.log(err.message)
       return history.push("/Home")
     })
-
   }
 
   return(
@@ -191,13 +198,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
     return config;
   });
-
   const { data } = await api.get('/questions')
 
   data.map((question : QuestionProps)=> {
     questionsID.push(question._id)
   })
-
   return {
     props: {
       data,

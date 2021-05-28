@@ -3,6 +3,7 @@ import { FiList, FiHome, FiUser} from 'react-icons/fi'
 import Link from 'next/link'
 import { useLoading } from '../../contexts/LoadingIcon'
 import { useRouter } from 'next/router'
+import { logout } from '../../services/auth'
 
 interface TabsProps{
   pageActive : string
@@ -34,6 +35,11 @@ export function BottomMenu({ pageActive }: TabsProps){
       }
     }
   }
+  function Logout(){
+    logout()
+    history.push("/SignIn")
+    return
+  }
   return(
     <footer className={styles.container}>
         <button type='button' className={pageActive === "activities" ? styles.active : ''} onClick={()=> navegate("activities")}>
@@ -46,7 +52,7 @@ export function BottomMenu({ pageActive }: TabsProps){
           home
         </button>
 
-        <button type='button' className={pageActive === "me" ? styles.active : ''} onClick={()=> navegate("me")}>
+        <button type='button' className={pageActive === "me" ? styles.active : ''} onClick={Logout}>
           <FiUser size={30} color={'#fff'}/>
           Eu
         </button>

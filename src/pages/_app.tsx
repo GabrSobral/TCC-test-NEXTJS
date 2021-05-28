@@ -2,10 +2,41 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { ActivityProvider } from '../contexts/ActivityContext'
 import { LoadingProvider } from '../contexts/LoadingIcon'
+import { api } from '../services/api'
 import { IndexedDB } from '../services/IndexedDB'
+import { getMyData } from '../services/IndexedDB'
 import '../styles/global.scss'
 
 function MyApp({ Component, pageProps }) {
+  async function SyncData(){
+    const ActivitiesID = []
+
+    if(navigator.onLine){
+      const { 
+        _id,
+        allAtivitiesFinished,
+        myCurrentActivities,
+        activityValidity,
+        activitiesFinishedToday,
+        answers,
+        name
+      }: any = await getMyData()
+      
+      myCurrentActivities.map((activity: any) => {
+        ActivitiesID.push(activity._id)
+      })
+
+      await api.patch('/sync-my-data', {
+        _id,
+        allAtivitiesFinished,
+        myCurrentActivities: ActivitiesID,
+        activityValidity,
+        activitiesFinishedToday,
+        answers,
+        name,
+      })
+    }
+  }
   useEffect(()=>{
     if("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
@@ -20,13 +51,21 @@ function MyApp({ Component, pageProps }) {
       });
     }
     IndexedDB()
+    SyncData()
   },[])
+  
   return(
+    <>
+      <Head>
+        <title>Carpe Diem</title>
+      </Head>
+
       <LoadingProvider>
         <ActivityProvider>
           <Component {...pageProps} />
         </ActivityProvider>
       </LoadingProvider>
+    </>
   ) 
 }
 

@@ -14,5 +14,5 @@ export const login = token => {
 };
 
 export const logout = () => {
-  Cookies.delete(TOKEN_KEY)
+  Cookies.remove(TOKEN_KEY)
 };

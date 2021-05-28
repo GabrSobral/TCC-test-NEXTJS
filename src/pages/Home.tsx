@@ -29,13 +29,11 @@ export default function Home(){
     setActivitiesTodayState(data.activitiesFinishedToday)
   }
   setLoadingFalse()
-  
   useEffect(()=> { 
     getMyDataIDB()
     setIsVisible(true)
     const percentegeCalculated = Math.round((activitiesToday*100) / 5)
     setPercentage(percentegeCalculated)
-    console.log(activitiesToday)
   },[activitiesToday])
 
   useEffect(()=>{

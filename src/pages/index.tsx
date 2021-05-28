@@ -25,6 +25,7 @@ export default function SignUp() {
   const history = useRouter()
 
   const y = useMotionValue(0)
+  
   setLoadingFalse()
 
   useEffect(()=> {
@@ -76,22 +77,17 @@ export default function SignUp() {
     <SignPageHeader title='Cadastrar' button='Entrar'/>
   ),[])
   const memoizedMessage = useMemo(()=> (
-    <span style={{margin : "auto", color : 'red'}}>{message}</span>
+    <span className={styles.warningText}>{message}</span>
   ),[message])
   
   const memoizedButton = useMemo(()=> (
-      <button type='submit' onClick={SignUp} disabled={email && password && confirmPassword ? false : true}>
+      <button type='button' onClick={SignUp} disabled={email && password && confirmPassword ? false : true}>
         Cadastrar
         <FaSignInAlt size={24}/>
       </button>
-  ),[isFilled])
+  ),[isFilled, confirmPassword, password])
 
-  async function SignUp(event : FormEvent){
-    event.preventDefault();
-
-    console.log("senha", password)
-    console.log("confirmação", confirmPassword)
-
+  async function SignUp(){
     name.trim()
     email.trim()
     
