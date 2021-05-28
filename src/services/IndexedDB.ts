@@ -274,3 +274,31 @@ export function deleteMyActivity(id : string){
     }
   }
 }
+export function DeleteMyDataFromIDB(){
+  return new Promise((resolve, reject)=>{
+    let database : IDBDatabase
+    let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
+
+    request.onerror = () => {
+      alert("Você não habilitou minha web app para usar IndexedDB?!");
+    };
+
+    request.onsuccess = () => {
+      database = request.result;
+      let objectStoreUser = database.transaction(["usuario"], 'readwrite').objectStore("usuario")
+
+      const objectStoreUserGet = objectStoreUser.getAll()
+
+      objectStoreUserGet.onsuccess = ()=> {
+        const dataGet = objectStoreUserGet.result
+        const deleteData = database.transaction(["usuario"], 'readwrite')
+        .objectStore("usuario")
+        .delete(dataGet[0]._id)
+
+        deleteData.onsuccess = function(event) {
+          return console.log("Data Deleted")
+        };
+      }
+    }
+  })
+}

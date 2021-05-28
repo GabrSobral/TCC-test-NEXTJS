@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import { DeleteMyDataFromIDB } from './IndexedDB';
 export const TOKEN_KEY = "TCC_APIToken"
 export const NAME_KEY = "@tcc_api-Name"
 
@@ -15,4 +16,5 @@ export const login = token => {
 
 export const logout = () => {
   Cookies.remove(TOKEN_KEY)
+  DeleteMyDataFromIDB()
 };
