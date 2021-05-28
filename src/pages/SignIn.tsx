@@ -63,7 +63,9 @@ export default function SignIn(){
   ),[])
 
   async function SignIn(event : FormEvent){
+    console.log("Clicou")
     event.preventDefault();
+    setIsFilled(true)
     setLoadingTrue()
 
     await api.post('/authenticate', { email, password })
@@ -73,15 +75,15 @@ export default function SignIn(){
       const fullName = String(response.data.user.name)
       const firstName = fullName.split(" ")
 
-      async function storageData(){
+      function storageData(){
         localStorage.setItem(NAME_KEY, firstName[0]);
         
-        const user: any = await AuthenticateDB(response.data.user)
+        AuthenticateDB(response.data.user)
 
-        if(user.answers.length === 0){
-          return history.push('/Questionnaire')
+        if(response.data.user.answers.length === 0){
+          history.push('/Questionnaire')
         } else {
-          return history.push('/Home')
+          history.push('/Home')
         }
       }
       storageData()

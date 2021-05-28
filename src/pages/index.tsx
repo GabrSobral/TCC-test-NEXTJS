@@ -13,6 +13,7 @@ import { api } from '../services/api'
 import styles from '../styles/app.module.scss'
 import { getToken, login, NAME_KEY, TOKEN_KEY } from "../services/auth";
 import { useRouter } from "next/router";
+import { AuthenticateDB } from "../services/IndexedDB";
 
 export default function SignUp() {
   const [ name, setName ] = useState<string>('')
@@ -103,9 +104,13 @@ export default function SignUp() {
       const fullName = String(response.data.user.name)
       const firstName = fullName.split(" ")
 
-      localStorage.setItem(NAME_KEY, firstName[0]);
-
-      return history.push('/Questionnaire')
+      function storageData(){
+        localStorage.setItem(NAME_KEY, firstName[0]);
+        
+        AuthenticateDB(response.data.user)
+        history.push('/Questionnaire')
+      }
+      storageData()
     }).catch(() => {
       closeLoading()
       return setMessage("Email já cadastrado, tente outro!")
