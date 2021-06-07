@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { FaBullseye } from 'react-icons/fa'
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
 import { LoadingStatus } from '../components/LoadingStatus'
@@ -58,7 +59,7 @@ export default function PsychologistList(){
           >
           <div className={styles.mapContainer}>
             <div className={styles.map}>
-              <LeafletMap latitude={latitude} longitude={longitude}/>
+              <LeafletMap latitude={latitude} longitude={longitude} isChangeable={FaBullseye}/>
             </div> 
             <a className={styles.googleRoute} target='_blank' rel='noopener noreferrer' href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}>
               Ver rotas no Google Maps
