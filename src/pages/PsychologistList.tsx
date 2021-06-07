@@ -1,11 +1,15 @@
-import { addScaleCorrection, AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
+
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
 import { LoadingStatus } from '../components/LoadingStatus'
 import { PsychologistItem } from '../components/PsychologistItem'
+import PsychologistMap from '../components/PsychologistMap/index'
+
 import { useLoading } from '../contexts/LoadingIcon'
 import { api } from '../services/api'
+
 import styles from '../styles/PsychologistList.module.scss'
 
 interface Clinics{
@@ -23,6 +27,7 @@ interface Clinics{
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
+  const [ optionIsActive, setOptionIsActive ] = useState(false)
   const [ clinics, setClinics ] = useState<Clinics[]>([])
 
   const y = useMotionValue(0)
@@ -41,17 +46,18 @@ export default function PsychologistList(){
     <Header GoBackIsActive={true}/>
   ),[])
 
+  const memoizedOptionMapAndTitle = useMemo(()=>(
+    <>
+      { optionIsActive && (<h2>Consultórios perto de você</h2>) }
+      <div className={styles.optionMap}>
+        <button type="button" className={optionIsActive ? styles.active: ""} onClick={()=> setOptionIsActive(true)}>Lista</button>
+        <button type="button" className={!optionIsActive ? styles.active: ""} onClick={()=> setOptionIsActive(false)}>Mapa</button>
+      </div>
+    </>
+  ), [optionIsActive])
+
   const memoizedAllClinics = useMemo(()=>(
-    <AnimatePresence exitBeforeEnter>
-      {isVisible && (
-        <motion.main
-          key="Activities"
-          initial={{ opacity: 0, height: 0, y: 50 }}
-          animate={{ opacity: 1, height: "fit-content", y: 0}}
-          exit={{ opacity: 0}}
-        >
-        <h2>Consultórios perto de você</h2>
-        <section className={styles.AllClinics}>
+    <section className={styles.AllClinics}>
           { clinics.map((clinic: Clinics) => (
             <PsychologistItem
             key={clinic._id}
@@ -67,9 +73,6 @@ export default function PsychologistList(){
             />
           )) }
         </section>
-       </motion.main>
-      )}
-    </AnimatePresence>
   ),[clinics])
 
   const memoizedBottomMenu = useMemo(()=>(
@@ -79,9 +82,30 @@ export default function PsychologistList(){
   return(
     <div className={styles.container}>
       { isLoading && (<LoadingStatus/>) }
-
       {memoizedHeader}
-      {memoizedAllClinics}
+
+      <AnimatePresence exitBeforeEnter>
+      {isVisible && (
+        <motion.main
+          key="Activities"
+          initial={{ opacity: 0, height: 0, y: 50 }}
+          animate={{ opacity: 1, height: "fit-content", y: 0}}
+          exit={{ opacity: 0}}
+        >
+          {memoizedOptionMapAndTitle}
+          {optionIsActive ? 
+            memoizedAllClinics : ( 
+              <PsychologistMap
+                latitude={-20}
+                longitude={-46}
+                isChangeable={true}
+                content={clinics}
+              />
+            )}
+        </motion.main>
+      )}
+      </AnimatePresence>
+
       {memoizedBottomMenu}
     </div>
   )

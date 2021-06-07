@@ -1,19 +1,17 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import Link from 'next/link';
+import { useEffect, useMemo, useState } from "react";
 
 import { FaUser, FaEnvelope, FaLock, FaUnlock, FaSignInAlt } from 'react-icons/fa'
 import { motion, useMotionValue } from 'framer-motion';
-import Cookies from 'js-cookie'
 
 import { SignPageHeader } from "../components/SignPageHeader";
 import { LoadingStatus } from '../components/LoadingStatus';
 import { useLoading } from '../contexts/LoadingIcon';
 import { api } from '../services/api'
 
-import styles from '../styles/app.module.scss'
-import { getToken, login, NAME_KEY, TOKEN_KEY } from "../services/auth";
+import { getToken, login, NAME_KEY } from "../services/auth";
 import { useRouter } from "next/router";
 import { AuthenticateDB } from "../services/IndexedDB";
+import styles from '../styles/app.module.scss'
 
 export default function SignUp() {
   const [ name, setName ] = useState<string>('')

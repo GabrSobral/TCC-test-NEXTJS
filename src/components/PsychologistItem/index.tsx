@@ -53,7 +53,7 @@ export function PsychologistItem({
   return(
     <div className={styles.container}>
       <div className={styles.mapContainer}>
-        <LeafLetMap latitude={latitude} longitude={longitude}/>
+        <LeafLetMap latitude={latitude} longitude={longitude} isChangeable={false}/>
       </div>
 
       <div className={styles.information}>
@@ -63,7 +63,6 @@ export function PsychologistItem({
         <span className={styles.locale}>Santos - SP</span>
 
         <Link 
-          // href={`/PsychologistDetail?${arrayToQueryString(opening_hours)}`}
           href={`/PsychologistDetail?name=${name}&description=${description}${arrayToQueryString(psychologist, "psychologist")}${arrayToQueryString(opening_hours, "opening_hours")}&phone_number=${phone_number}&email=${email}&latitude=${latitude}&longitude=${longitude}`}
         >
           <button type="button" onClick={setLoadingTrue}>

@@ -106,3 +106,17 @@ button{
 ::-webkit-scrollbar-thumb:hover {
   background: transparent;
 }
+
+.leaflet-popup-content{
+  color: #0089a5;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 8px 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.leaflet-popup-tip-container{
+  display: none;
+}

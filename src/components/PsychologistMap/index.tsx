@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic"
 import ReactLoading from 'react-loading';
 
-function LeafLetMap({latitude, longitude, isChangeable}) {
+function LeafLetMapPsychologist({latitude, longitude, isChangeable, content}) {
 
   const Map = dynamic(
     () => import('./map'),
@@ -17,8 +17,9 @@ function LeafLetMap({latitude, longitude, isChangeable}) {
       latitude={latitude} 
       longitude={longitude} 
       isChangeable={isChangeable} 
+      content={content}
     />
   )
 }
 
-export default LeafLetMap
+export default LeafLetMapPsychologist
