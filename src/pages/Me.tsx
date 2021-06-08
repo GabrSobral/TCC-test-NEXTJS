@@ -32,12 +32,11 @@ export default function Me(){
 
   const FetchMydata = useCallback(async ()=> {
     const myData: UserProps = await getMyData()
-    const formattedDate = format(new Date(myData.createdAt), 'MM/dd/yyyy')
+    const formattedDate = format(new Date(myData.createdAt), 'dd/MM/yyyy')
     myData.createdAt = formattedDate
     setUser(myData)
   }, [])
  
-
   useEffect(()=>{ 
     setIsVisible(true) 
     FetchMydata()

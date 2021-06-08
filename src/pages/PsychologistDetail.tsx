@@ -47,7 +47,7 @@ export default function PsychologistList(){
           >
           <div className={styles.mapContainer}>
             <div className={styles.map}>
-              <LeafletMap latitude={latitude} longitude={longitude} isChangeable={FaBullseye}/>
+              <LeafletMap latitude={latitude} longitude={longitude} isChangeable={false}/>
             </div> 
             <a className={styles.googleRoute} target='_blank' rel='noopener noreferrer' href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}>
               Ver rotas no Google Maps
