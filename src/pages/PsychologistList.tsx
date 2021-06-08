@@ -11,24 +11,13 @@ import { useLoading } from '../contexts/LoadingIcon'
 import { api } from '../services/api'
 
 import styles from '../styles/PsychologistList.module.scss'
-
-interface Clinics{
-  _id : string;
-  opening_hours: string[];
-  psychologist: string[];
-  name: string;
-  description: string;
-  phone_number: string;
-  email: string;
-  latitude: number;
-  longitude: number;
-}
+import { Clinic } from '../types/Clinic'
 
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
   const [ optionIsActive, setOptionIsActive ] = useState(true)
-  const [ clinics, setClinics ] = useState<Clinics[]>([])
+  const [ clinics, setClinics ] = useState<Clinic[]>([])
 
   const y = useMotionValue(0)
 

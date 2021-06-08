@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import ReactLoading from 'react-loading'
 
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
@@ -25,7 +24,6 @@ export default function Home(){
 
   async function getMyDataIDB(){
     const data: any = await getMyData()
-    console.log(data.activitiesFinishedToday)
     setActivitiesTodayState(data.activitiesFinishedToday)
   }
   setLoadingFalse()

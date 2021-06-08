@@ -1,17 +1,5 @@
-
-interface DesignedTo{
-  _id : string;
-  name : string;
-}
-
-interface ActivitiesProps{
-  _id : string;
-  designedTo : DesignedTo[];
-  title : string;
-  description: string;
-  body: string;
-  experience : number;
-}
+import { ActivitiesProps } from "../types/Activitiy";
+import { UserProps } from "../types/User";
 
 export function IndexedDB(){
   let database : IDBDatabase
@@ -161,7 +149,7 @@ export function updateMyActivities(activities : ActivitiesProps[]){
     }
   }
 }
-export function getMyData(){
+export function getMyData(): Promise<UserProps>{
   return new Promise((resolve, reject)=> {
     let database : IDBDatabase
     let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);

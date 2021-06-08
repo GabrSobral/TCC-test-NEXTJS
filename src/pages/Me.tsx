@@ -1,18 +1,20 @@
-import { useEffect, useMemo, useState, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router';
-import { AnimatePresence, motion, motionValue, useTransform, useViewportScroll } from 'framer-motion'
-import ReactLoading from 'react-loading'
+import { AnimatePresence, motion, useTransform, useViewportScroll } from 'framer-motion'
+import { FiBook, FiLock, FiLogOut, FiSettings } from 'react-icons/fi';
+import { format } from 'date-fns'
 
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
-
 import { LoadingStatus } from '../components/LoadingStatus';
 
 import { useLoading } from '../contexts/LoadingIcon';
+import { logout } from '../services/auth';
+import { getMyData } from '../services/IndexedDB';
+import { UserProps } from '../types/User';
 
 import 'react-circular-progressbar/dist/styles.css';
 import styles from '../styles/me.module.scss'
-import { FiBook, FiLock, FiLogOut, FiSettings } from 'react-icons/fi';
 
 export default function Me(){
   const history = useRouter()
@@ -20,13 +22,82 @@ export default function Me(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
   const [ settingsIsVisible, setSettingsIsVisible ] = useState(false)
+  const [ isLogoutModalVisible, setIsLogoutModalVisible ] = useState(false)
+  const [ user, setUser ] = useState<UserProps>()
   
   const { scrollYProgress } = useViewportScroll()
   const progress = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
   setLoadingFalse()
 
-  useEffect(()=>{ setIsVisible(true) },[])
+  const FetchMydata = useCallback(async ()=> {
+    const myData: UserProps = await getMyData()
+    const formattedDate = format(new Date(myData.createdAt), 'MM/dd/yyyy')
+    myData.createdAt = formattedDate
+    setUser(myData)
+  }, [])
+ 
+
+  useEffect(()=>{ 
+    setIsVisible(true) 
+    FetchMydata()
+  },[])
+
+  function Logout(){
+    logout()
+    history.push("/SignIn")
+    return
+  }
+  function ModalLogout(){
+    return(
+      <motion.div className={styles.modalBackground}
+        layout
+        key="modalLogoutBackground"
+        initial={{ opacity: 0}}
+        animate={{ opacity: 1}}
+        exit={{ opacity: 0}}
+      >
+        <AnimatePresence key="logout">
+          <motion.div className={styles.modalContainer}
+            layout
+            key="modalLogout"
+            animate={{
+              scale : [0, 1],
+              opacity:[0, 1]}}
+            exit={{ scale : 0}}
+            transition={{ 
+              delay: 0.25,
+              bounce: 0.5, 
+              type: "spring", 
+              duration: 0.3 }}
+          >
+            <div>
+              <h2>Volte sempre {": )"}</h2>
+              <p>Você tem certeza de que deseja sair do nosso app?</p>
+            </div>
+
+            <div className={styles.removeModalButton}>
+                <button type="button" onClick={() => setIsLogoutModalVisible(false)}>
+                  Não
+                </button>
+
+                <button 
+                  type="button" 
+                  onClick={Logout}>
+                  Sim
+                </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+    )
+  }
+
+  const memoizedModalLogout = useMemo(()=>(
+    <AnimatePresence exitBeforeEnter>
+        <ModalLogout key="ModalLogout"/>
+    </AnimatePresence>
+  ),[])
 
   const memoizedHeader = useMemo(()=>(
     <Header GoBackIsActive={false}/>
@@ -34,23 +105,21 @@ export default function Me(){
 
   const memoizedHeaderUser = useMemo(()=>(
     <section className={styles.headerUserContainer}>
-      <motion.div 
-        className={styles.ImageAndNameContainer}
-        initial={{ y: 100, scale: 0.2}}
-        animate={{ y: -10, scale: 1}}
-      >
+      <div className={styles.ImageAndNameContainer}>
         <img src="https://github.com/sobraloser.png" alt="Minha foto de perfil" />
-        <span>Gabriel Sobral dos Santos</span>
-      </motion.div>
+        <span>{user?.name}</span>
+      </div>
+
+      <span className={styles.registeredAt}>Registrado em: {user?.createdAt}</span>
     </section>
-  ),[])
+  ),[user])
 
   const memoizedAllActivities = useMemo(()=>(
     <div className={styles.allActivitiesComplete}>
       <span>Atividades completas:</span>
-      <span>13</span>
+      <span>{user?.allAtivitiesFinished}</span>
     </div>
-  ),[])
+  ),[user])
 
   const memoizedSettingsButton = useMemo(()=>(
     <div className={styles.configurationsContainer}>
@@ -87,7 +156,7 @@ export default function Me(){
   ),[settingsIsVisible])
 
   const memoizedLogoutButton = useMemo(()=>(
-    <button type='button' className={styles.logoutButton}>
+    <button type='button' className={styles.logoutButton} onClick={()=> setIsLogoutModalVisible(true)}>
       Sair
       <FiLogOut size={35} color="#EF4040"/>
     </button>
@@ -100,6 +169,8 @@ export default function Me(){
   return(
     <div className={styles.container}>
       { isLoading && (<LoadingStatus/>) }
+      { isLogoutModalVisible && memoizedModalLogout }
+
       {memoizedHeader}
       <AnimatePresence exitBeforeEnter>
         {isVisible && (

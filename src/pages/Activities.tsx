@@ -17,20 +17,6 @@ import { getMyData, updateMyActivities } from '../services/IndexedDB'
 
 import styles from '../styles/activities.module.scss'
 
-interface DesignedTo{
-  _id : string;
-  name : string;
-}
-
-interface ActivitiesProps{
-  _id : string;
-  designedTo : DesignedTo[];
-  title : string;
-  description: string;
-  body: string;
-  experience : number;
-}
-
 export default function Activities(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse, setLoadingTrue, closeLoading } = useLoading()

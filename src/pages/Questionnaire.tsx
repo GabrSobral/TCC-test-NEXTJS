@@ -1,8 +1,6 @@
-import { ElementType, FormEvent, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { AnimatePresence, motion } from 'framer-motion';
-import Cookies from 'js-cookie'
 
 import { Header } from '../components/header';
 import { LoadingStatus } from '../components/LoadingStatus';
@@ -13,15 +11,7 @@ import { useLoading } from '../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
 import { getMyData, updateMyQuestionnaire } from '../services/IndexedDB';
 
-interface TypeProps{
-  _id : string;
-  name : string;
-}
-interface QuestionProps{
-  body : string;
-  _id : string;
-  type : TypeProps[]
-}
+import { QuestionProps } from '../types/Question';
 
 export default function Questionnaire({ data, questionsID }){
   const history = useRouter()

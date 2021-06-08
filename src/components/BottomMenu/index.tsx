@@ -1,9 +1,7 @@
 import styles from './styles.module.scss'
 import { FiList, FiHome, FiUser} from 'react-icons/fi'
-import Link from 'next/link'
 import { useLoading } from '../../contexts/LoadingIcon'
 import { useRouter } from 'next/router'
-import { logout } from '../../services/auth'
 
 interface TabsProps{
   pageActive : string
@@ -35,11 +33,7 @@ export function BottomMenu({ pageActive }: TabsProps){
       }
     }
   }
-  function Logout(){
-    logout()
-    history.push("/SignIn")
-    return
-  }
+
   return(
     <footer className={styles.container}>
         <button type='button' className={pageActive === "activities" ? styles.active : ''} onClick={()=> navigate("activities")}>

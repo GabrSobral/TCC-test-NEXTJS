@@ -1,24 +1,14 @@
-import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
-import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { FaBullseye } from 'react-icons/fa'
+
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
 import { LoadingStatus } from '../components/LoadingStatus'
 import LeafletMap from '../components/Map'
 
 import styles from '../styles/PsychologistDetail.module.scss'
-
-interface Clinic{
-  openings_hours: string[];
-  psychologist: string[];
-  name: string;
-  description: string;
-  phone_number: string;
-  email: string;
-  latitude: number;
-  longitude: number;
-}
 
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)

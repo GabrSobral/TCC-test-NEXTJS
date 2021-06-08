@@ -1,14 +1,17 @@
-import styles from '../styles/app.module.scss'
-import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa'
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { SignPageHeader } from "../components/SignPageHeader";
-import { motion, useMotionValue } from "framer-motion";
-import { useLoading } from '../contexts/LoadingIcon';
-import { LoadingStatus } from '../components/LoadingStatus';
-import { login, NAME_KEY } from '../services/auth';
 import { useRouter } from 'next/router';
+import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa'
+import { motion, useMotionValue } from "framer-motion";
+
+import { SignPageHeader } from "../components/SignPageHeader";
+import { LoadingStatus } from '../components/LoadingStatus';
+
+import { useLoading } from '../contexts/LoadingIcon';
+import { login, NAME_KEY } from '../services/auth';
 import { api } from '../services/api';
 import { AuthenticateDB } from '../services/IndexedDB';
+
+import styles from '../styles/app.module.scss'
 
 export default function SignIn(){
   const [ email, setEmail ] = useState<string>('')

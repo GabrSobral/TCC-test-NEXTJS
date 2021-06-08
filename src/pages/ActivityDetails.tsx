@@ -185,6 +185,7 @@ export default function ActivitiyDetails(){
       </motion.div>
     )
   }
+  
   const MemoizedModalExclude = useMemo(()=>(
     <AnimatePresence exitBeforeEnter>
         <ModalExclude key="ModalExcludeAP"/>
