@@ -1,5 +1,6 @@
 export interface Clinic{
-  openings_hours: string[];
+  _id: string;
+  opening_hours: string[];
   psychologist: string[];
   name: string;
   description: string;

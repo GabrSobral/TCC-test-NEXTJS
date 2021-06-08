@@ -47,7 +47,7 @@ export default function PsychologistList(){
 
   const memoizedAllClinics = useMemo(()=>(
     <section className={styles.AllClinics}>
-          { clinics.map((clinic: Clinics) => (
+          { clinics.map((clinic: Clinic) => (
             <PsychologistItem
             key={clinic._id}
               _id={clinic._id}
