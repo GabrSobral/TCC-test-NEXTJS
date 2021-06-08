@@ -41,8 +41,6 @@ export default function PsychologistList(){
     longitude 
   }: any = router.query 
 
-  console.log(opening_hours, psychologist)
-
   return(
     <div className={styles.container}>
       {isLoadingStatus && (

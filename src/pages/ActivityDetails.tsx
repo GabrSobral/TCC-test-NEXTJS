@@ -110,10 +110,9 @@ export default function ActivitiyDetails(){
             layout
             key="modalSuccess"
             animate={{
-              height : [0, 320],
-              width : ["0%", "90%"], 
+              scale : [0, 1],
               opacity:[0, 1]}}
-            exit={{ height: 0, width : "0%"}}
+            exit={{ scale : 0}}
             transition={{ 
               delay: 0.25,
               bounce: 0.5, 
@@ -155,10 +154,9 @@ export default function ActivitiyDetails(){
             layout
             key="modalExclude"
             animate={{
-              height : [0, 320],
-              width : ["0%", "90%"], 
+              scale : [0, 1],
               opacity:[0, 1]}}
-            exit={{ height: 0, width : "0%"}}
+            exit={{ scale : 0}}
             transition={{ 
               delay: 0.25,
               bounce: 0.5, 

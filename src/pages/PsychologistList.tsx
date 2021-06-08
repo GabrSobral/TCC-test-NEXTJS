@@ -27,7 +27,7 @@ interface Clinics{
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)
   const { isLoading, setLoadingFalse } = useLoading()
-  const [ optionIsActive, setOptionIsActive ] = useState(false)
+  const [ optionIsActive, setOptionIsActive ] = useState(true)
   const [ clinics, setClinics ] = useState<Clinics[]>([])
 
   const y = useMotionValue(0)

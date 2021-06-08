@@ -1,0 +1,134 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: var(--white);
+
+  main{
+    margin-top: 5rem;
+    width: 100%;
+    height: fit-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    perspective: 2px;
+
+    .headerUserContainer{
+      position: relative;
+      width: 100%;
+      height: 15rem;
+      background-color: var(--blue-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+
+      .ImageAndNameContainer{
+        position: sticky;
+        transform: translateY(-10%);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        img{
+          border-radius: 50%;
+          height: 7rem;
+          width: 7rem;
+        }
+
+        span{
+          font-size: 1.25rem;
+          color: var(--white);
+          word-break: break-all;
+          word-wrap: break-word;
+        }
+      }
+    }
+    .BottomInfoContainer{
+      position: relative;
+      width: 100%;
+      border-radius: 7px 7px 0px 0px;
+      height: calc(89vh - 15rem);
+      background-color: var(--white);
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.207);
+      transform: translateY(-5%);
+      padding: 1rem;
+
+      .allActivitiesComplete{
+        width: 100%;
+        height: fit-content;
+        background-color: var(--gray-50);
+        border-radius: 7px;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span:first-child{
+          font-size: 1.25rem;
+          font-weight: 500;
+        }
+        span:last-child{
+          font-size: 1.75rem;
+          font-weight: 600;
+          color: var(--blue-300);
+        }
+      }
+
+      .configurationsContainer{
+        width: 100%;
+        background-color: var(--gray-100);
+        margin: 1rem 0;
+        border-radius: 7px;
+        overflow: hidden;
+
+        .configurationButton{
+          width: 100%;
+          display: flex;
+          padding: 1rem;
+          align-items: center;
+          border-radius: 7px;
+          box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.234);
+          background-color: var(--gray-50);
+          justify-content: space-between;
+          border: 0;
+          font-size: 1.25rem;
+          font-weight: 500;
+        }
+
+        .hiddenButtons{
+          box-shadow: 1px 1px 10px inset rgba(0, 0, 0, 0.234);
+
+          div{
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+        }
+      }
+
+      .logoutButton{
+        position: relative;
+        width: 100%;
+        height: fit-content;
+        padding: 1rem;
+        border: 2px solid var(--red-900);
+        color: var(--red-900);
+        background-color: transparent;
+        border-radius: 7px;
+        font-size: 1.25rem;
+      
+        svg{
+          position: absolute;
+          transform: translateX(50%) translateY(-50%);
+          top: 50%;
+          right: 2rem;
+        }
+      }
+    }
+  }
+}

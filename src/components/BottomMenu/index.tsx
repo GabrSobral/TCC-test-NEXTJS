@@ -13,7 +13,7 @@ export function BottomMenu({ pageActive }: TabsProps){
   const { setLoadingTrue } = useLoading()
   const history = useRouter()
 
-  function navegate(page: string){
+  function navigate(page: string){
     switch(page){
       case "activities" : {
         if(pageActive !== "activities"){
@@ -29,7 +29,7 @@ export function BottomMenu({ pageActive }: TabsProps){
       }
       case "me" : {
         if(pageActive !== "me"){
-          history.push("/Activities")
+          history.push("/Me")
           setLoadingTrue();
         } break;
       }
@@ -42,17 +42,17 @@ export function BottomMenu({ pageActive }: TabsProps){
   }
   return(
     <footer className={styles.container}>
-        <button type='button' className={pageActive === "activities" ? styles.active : ''} onClick={()=> navegate("activities")}>
+        <button type='button' className={pageActive === "activities" ? styles.active : ''} onClick={()=> navigate("activities")}>
           <FiList size={30} color={'#fff'}/>
           Atividades
         </button>
 
-        <button type='button' className={pageActive === "home" ? styles.active : ''} onClick={()=> navegate("home")}>
+        <button type='button' className={pageActive === "home" ? styles.active : ''} onClick={()=> navigate("home")}>
           <FiHome size={30} color={'#fff'}/>
           home
         </button>
 
-        <button type='button' className={pageActive === "me" ? styles.active : ''} onClick={Logout}>
+        <button type='button' className={pageActive === "me" ? styles.active : ''} onClick={()=> navigate("me")}>
           <FiUser size={30} color={'#fff'}/>
           Eu
         </button>
