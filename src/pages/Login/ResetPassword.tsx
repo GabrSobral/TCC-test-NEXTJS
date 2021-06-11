@@ -70,15 +70,15 @@ export default function ForgotPassword() {
       <input type='password' onChange={(event)=> setNewPassword(event.target.value)}/>
       <FaLock size={20} className={styles.icon}/>
     </div>
-  ),[])
+  ),[newPassword])
 
   const memoizedConfirmNewPassword = useMemo(()=> (
-    <div className={!newPassword ? styles.inputContainer : styles.inputContainerActive}>
+    <div className={!confirmNewPassword ? styles.inputContainer : styles.inputContainerActive}>
       <span>Confirme nova senha</span>
       <input type='password' onChange={(event)=> setConfirmNewPassword(event.target.value)}/>
       <FaUnlock size={20} className={styles.icon}/>
     </div>
-  ),[])
+  ),[confirmNewPassword])
 
   const memoizedMessage = useMemo(()=> (
     <span className={styles.warningText}>{message}</span>

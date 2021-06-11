@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
-import { FaBullseye } from 'react-icons/fa'
 
-import { BottomMenu } from '../components/BottomMenu'
-import { Header } from '../components/header'
-import { LoadingStatus } from '../components/LoadingStatus'
-import LeafletMap from '../components/Map'
+import { BottomMenu } from '../../components/BottomMenu'
+import { Header } from '../../components/header'
+import { LoadingStatus } from '../../components/LoadingStatus'
+import LeafletMap from '../../components/Map'
 
-import styles from '../styles/PsychologistDetail.module.scss'
+import styles from '../../styles/PsychologistDetail.module.scss'
 
 export default function PsychologistList(){
   const [ isVisible, setIsVisible ] = useState(false)
@@ -47,7 +46,7 @@ export default function PsychologistList(){
           >
           <div className={styles.mapContainer}>
             <div className={styles.map}>
-              <LeafletMap latitude={latitude} longitude={longitude} isChangeable={false}/>
+              <LeafletMap latitude={latitude} longitude={longitude}/>
             </div> 
             <a className={styles.googleRoute} target='_blank' rel='noopener noreferrer' href={`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`}>
               Ver rotas no Google Maps
