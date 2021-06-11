@@ -45,7 +45,7 @@ export default function Me(){
 
   function Logout(){
     logout()
-    history.push("/SignIn")
+    history.push("/Login/SignIn")
     return
   }
 
