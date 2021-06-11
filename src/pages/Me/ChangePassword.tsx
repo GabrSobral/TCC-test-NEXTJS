@@ -38,7 +38,8 @@ export default function ChangePassword() {
       setIsModalVisible(true)
     })
     .catch((err)=>{
-      console.log(err.message)
+      closeLoading()
+      setMessage("Sua senha atual está inválida!")
     })
   }
 
