@@ -1,17 +1,18 @@
-import styles from './style.module.scss'
 import { FiArrowLeft } from 'react-icons/fi'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { NAME_KEY } from '../../services/auth'
+import { useEffect } from 'react'
+
+import Urgent from '../../images/urgent.svg'
 import { useActivity } from '../../contexts/ActivityContext'
+
+import styles from './style.module.scss'
 
 interface HeaderProps{
   GoBackIsActive : boolean
 }
 
 export function Header({ GoBackIsActive} : HeaderProps){
-  // const [ name, setName ] = useState<string>("")
   const { setUserName, name } = useActivity()
   const router = useRouter()
   const x = useMotionValue(0)
@@ -68,7 +69,9 @@ export function Header({ GoBackIsActive} : HeaderProps){
       </motion.div>
 
       <div className={styles.userImage}>
-        <div></div>
+        <button type="button">
+          <img src={Urgent} alt="Urgencia de ansiedade" />
+        </button>
       </div>
     </header>
   )

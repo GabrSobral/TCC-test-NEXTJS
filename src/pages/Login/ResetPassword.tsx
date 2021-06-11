@@ -17,7 +17,9 @@ export default function ForgotPassword() {
 
   const [ message, setMessage ] = useState<string>('')
   const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false)
-  const { email, token } = Router.query
+
+  const history = useRouter()
+  const { email, token } = history.query
 
   const { setLoadingTrue, isLoading, setLoadingFalse, closeLoading} = useLoading()
 
@@ -34,10 +36,10 @@ export default function ForgotPassword() {
       setMessage("Senhas não estão iguais!")
       return
     }
-
     setLoadingTrue()
 
-    await api.post('/reset-password', { email, token, password: newPassword }).then(()=> {
+    await api.post('/reset-password', { email, token, password: newPassword })
+    .then(()=> {
       setIsModalVisible(true)
       closeLoading()
     })
