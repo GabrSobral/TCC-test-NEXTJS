@@ -15,13 +15,13 @@ export function BottomMenu({ pageActive }: TabsProps){
     switch(page){
       case "activities" : {
         if(pageActive !== "activities"){
-          history.push("/Activities")
+          history.push("/Activity/Activities")
           setLoadingTrue();
         } break;
       }
       case "home" : {
         if(pageActive !== "home"){
-          history.push("/Home")
+          history.push("/Home/Home")
           setLoadingTrue();
         } break;
       }

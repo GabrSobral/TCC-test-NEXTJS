@@ -22,19 +22,17 @@ export default function SignUp() {
   const [ isFilled, setIsFilled ] = useState(true)
   const { setLoadingTrue, isLoading, setLoadingFalse, closeLoading } = useLoading()
   const history = useRouter()
-
-  const y = useMotionValue(0)
   
   setLoadingFalse()
 
   useEffect(()=> {
     if(getToken()){
-      history.replace("/Home")
+      history.replace("/Home/Home")
       return
     }
-    history.prefetch('/Questionnaire')
-    history.prefetch('/SignIn')
-    history.prefetch('/Home')
+    history.prefetch('/Login/Questionnaire')
+    history.prefetch('/Login/SignIn')
+    history.prefetch('/Home/Home')
   },[])
   useEffect(()=>{
     name && email && password && confirmPassword ? setIsFilled(false) : setIsFilled(true)
@@ -80,7 +78,11 @@ export default function SignUp() {
   ),[message])
   
   const memoizedButton = useMemo(()=> (
-      <button type='button' onClick={SignUp} disabled={email && password && confirmPassword ? false : true}>
+      <button 
+        type='button' 
+        onClick={SignUp} 
+        disabled={email && password && confirmPassword ? false : true}
+      >
         Cadastrar
         <FaSignInAlt size={24}/>
       </button>

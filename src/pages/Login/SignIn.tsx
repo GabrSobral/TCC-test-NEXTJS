@@ -1,17 +1,18 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa'
 import { motion, useMotionValue } from "framer-motion";
 
-import { SignPageHeader } from "../components/SignPageHeader";
-import { LoadingStatus } from '../components/LoadingStatus';
+import { SignPageHeader } from "../../components/SignPageHeader";
+import { LoadingStatus } from '../../components/LoadingStatus';
 
-import { useLoading } from '../contexts/LoadingIcon';
-import { login, NAME_KEY } from '../services/auth';
-import { api } from '../services/api';
-import { AuthenticateDB } from '../services/IndexedDB';
+import { useLoading } from '../../contexts/LoadingIcon';
+import { login, NAME_KEY } from '../../services/auth';
+import { api } from '../../services/api';
+import { AuthenticateDB } from '../../services/IndexedDB';
 
-import styles from '../styles/app.module.scss'
+import styles from '../../styles/app.module.scss'
 
 export default function SignIn(){
   const [ email, setEmail ] = useState<string>('')
@@ -23,16 +24,15 @@ export default function SignIn(){
   const history = useRouter()
 
   setLoadingFalse()
+
   useEffect(()=> {
-    history.prefetch('/Questionnaire')
-    history.prefetch('/SignIn')
+    history.prefetch('/Login/Questionnaire')
+    history.prefetch('/Login/SignIn')
   },[])
 
   useEffect(()=>{
     email && password ? setIsFilled(false) : setIsFilled(true)
   },[email, password])
-
-  const y = useMotionValue(0)
 
   const memoizedEmail = useMemo(()=> (
     <div className={!email ? styles.inputContainer : styles.inputContainerActive}>
@@ -64,6 +64,11 @@ export default function SignIn(){
   const memoizedHeader = useMemo(()=> (
     <SignPageHeader title='Entrar' button='Cadastrar'/>
   ),[])
+  const memoizedForgotPassword = useMemo(() => (
+    <Link href="/Login/ForgotPassword">
+      <span className={styles.forgotPassword}>Esqueci minha senha</span>
+    </Link>
+  ),[])
 
   async function SignIn(event : FormEvent){
     console.log("Clicou")
@@ -84,9 +89,9 @@ export default function SignIn(){
         AuthenticateDB(response.data.user)
 
         if(response.data.user.answers.length === 0){
-          history.push('/Questionnaire')
+          history.push('/Login/Questionnaire')
         } else {
-          history.push('/Home')
+          history.push('/Home/Home')
         }
       }
       storageData()
@@ -109,6 +114,8 @@ export default function SignIn(){
           {memoizedEmail}
           {memoizedPassoword}
 
+          {memoizedForgotPassword}
+          
           {memoizedMessage}
           {memoizedButton}
         </form>

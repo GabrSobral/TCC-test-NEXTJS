@@ -2,17 +2,17 @@ import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 
-import { BottomMenu } from '../components/BottomMenu'
-import { Header } from '../components/header'
+import { BottomMenu } from '../../components/BottomMenu'
+import { Header } from '../../components/header'
 
-import styles from '../styles/home.module.scss'
+import styles from '../../styles/home.module.scss'
 import 'react-circular-progressbar/dist/styles.css';
-import { Item } from '../components/ItemButton';
-import { LoadingStatus } from '../components/LoadingStatus';
-import { useLoading } from '../contexts/LoadingIcon';
+import { Item } from '../../components/ItemButton';
+import { LoadingStatus } from '../../components/LoadingStatus';
+import { useLoading } from '../../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
-import { useActivity } from '../contexts/ActivityContext';
-import { getMyData } from '../services/IndexedDB'
+import { useActivity } from '../../contexts/ActivityContext';
+import { getMyData } from '../../services/IndexedDB'
 
 export default function Home(){
   const history = useRouter()
@@ -69,14 +69,14 @@ export default function Home(){
         title="Ajuda nunca é demais"
         description="Ajuda profissional sempre é a melhor escolha"
         icons="medic"
-        page="PsychologistList"
+        page="Psychologist/PsychologistList"
       />
 
       <Item
         title="Respire e se acalme"
         description="Faça exercícios de respiração para se acalmar."
         icons="clock"
-        page="Clock"
+        page="Home/Clock"
       />
     </section>
   ),[])

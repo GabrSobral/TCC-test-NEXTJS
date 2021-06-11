@@ -24,7 +24,7 @@ export function SignPageHeader({ title, button } : headerProps){
 
     <h1>{title}</h1>
 
-    <Link href={button == 'Entrar' ? '/SignIn' : '/'}>
+    <Link href={button == 'Entrar' ? '/Login/SignIn' : '/'}>
       <a onClick={setLoadingTrue}>{button}</a>
     </Link>
     </header>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { Header } from '../components/header'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Header } from '../../components/header'
+import { AnimatePresence } from 'framer-motion'
 
-import styles from '../styles/Clock.module.scss'
-import { Respiration } from '../components/Respiration'
+import styles from '../../styles/Clock.module.scss'
+import { Respiration } from '../../components/Respiration'
 
 export default function Clock(){
   const [ isVisible, setIsVisible ] = useState(false)

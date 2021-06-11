@@ -53,7 +53,7 @@ export function PsychologistItem({
   return(
     <div className={styles.container}>
       <div className={styles.mapContainer}>
-        <LeafLetMap latitude={latitude} longitude={longitude} isChangeable={false}/>
+        <LeafLetMap latitude={latitude} longitude={longitude}/>
       </div>
 
       <div className={styles.information}>

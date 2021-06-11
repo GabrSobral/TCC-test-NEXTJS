@@ -2,16 +2,16 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Header } from '../components/header';
-import { LoadingStatus } from '../components/LoadingStatus';
-import { api } from '../services/api';
+import { Header } from '../../components/header';
+import { LoadingStatus } from '../../components/LoadingStatus';
+import { api } from '../../services/api';
 
-import styles from '../styles/Questionnaire.module.scss'
-import { useLoading } from '../contexts/LoadingIcon';
+import styles from '../../styles/Questionnaire.module.scss'
+import { useLoading } from '../../contexts/LoadingIcon';
 import { useRouter } from 'next/router';
-import { getMyData, updateMyQuestionnaire } from '../services/IndexedDB';
+import { getMyData, updateMyQuestionnaire } from '../../services/IndexedDB';
 
-import { QuestionProps } from '../types/Question';
+import { QuestionProps } from '../../types/Question';
 
 export default function Questionnaire({ data, questionsID }){
   const history = useRouter()

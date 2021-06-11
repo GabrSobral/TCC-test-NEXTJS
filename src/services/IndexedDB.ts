@@ -47,6 +47,8 @@ export function AuthenticateDB(data : any){
   let database : IDBDatabase
   let request: IDBOpenDBRequest = self.window.indexedDB.open("DB_TCC", 1);
 
+  console.log(data)
+
   request.onerror = () => {
     alert("Você não habilitou minha web app para usar IndexedDB?!");
   };

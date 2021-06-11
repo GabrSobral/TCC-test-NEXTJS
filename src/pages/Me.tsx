@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { BottomMenu } from '../components/BottomMenu'
 import { Header } from '../components/header'
 import { LoadingStatus } from '../components/LoadingStatus';
+import { Modal } from '../components/Modal'
 
 import { useLoading } from '../contexts/LoadingIcon';
 import { logout } from '../services/auth';
@@ -47,56 +48,18 @@ export default function Me(){
     history.push("/SignIn")
     return
   }
-  function ModalLogout(){
-    return(
-      <motion.div className={styles.modalBackground}
-        layout
-        key="modalLogoutBackground"
-        initial={{ opacity: 0}}
-        animate={{ opacity: 1}}
-        exit={{ opacity: 0}}
-      >
-        <AnimatePresence key="logout">
-          <motion.div className={styles.modalContainer}
-            layout
-            key="modalLogout"
-            animate={{
-              scale : [0, 1],
-              opacity:[0, 1]}}
-            exit={{ scale : 0}}
-            transition={{ 
-              delay: 0.25,
-              bounce: 0.5, 
-              type: "spring", 
-              duration: 0.3 }}
-          >
-            <div>
-              <h2>Volte sempre {": )"}</h2>
-              <p>Você tem certeza de que deseja sair do nosso app?</p>
-            </div>
-
-            <div className={styles.removeModalButton}>
-                <button type="button" onClick={() => setIsLogoutModalVisible(false)}>
-                  Não
-                </button>
-
-                <button 
-                  type="button" 
-                  onClick={Logout}>
-                  Sim
-                </button>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-    )
-  }
 
   const memoizedModalLogout = useMemo(()=>(
-    <AnimatePresence exitBeforeEnter>
-        <ModalLogout key="ModalLogout"/>
-    </AnimatePresence>
-  ),[])
+    <Modal
+      title={`Volte sempre ${': )'}`}
+      description="Você tem certeza de que deseja sair do nosso app?"
+      keyModal="Logout"
+      isVisible={isLogoutModalVisible}
+      setIsVisible={setIsLogoutModalVisible}
+      yesAndNoButtons={true}
+      confirmFunction={Logout}
+    />
+  ),[isLogoutModalVisible])
 
   const memoizedHeader = useMemo(()=>(
     <Header GoBackIsActive={false}/>
@@ -168,7 +131,7 @@ export default function Me(){
   return(
     <div className={styles.container}>
       { isLoading && (<LoadingStatus/>) }
-      { isLogoutModalVisible && memoizedModalLogout }
+      { memoizedModalLogout }
 
       {memoizedHeader}
       <AnimatePresence exitBeforeEnter>

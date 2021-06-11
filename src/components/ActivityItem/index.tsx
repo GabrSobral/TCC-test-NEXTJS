@@ -36,7 +36,7 @@ export function ActivityItem({ title, description, icons, content, id }: Activit
   const { setLoadingTrue } = useLoading()
   
   return(
-    <Link href={`/ActivityDetails?title=${title}&description=${description}&icons=${icons}&content=${content}&id=${id}`}>
+    <Link href={`/Activity/ActivityDetails?title=${title}&description=${description}&icons=${icons}&content=${content}&id=${id}`}>
       <div className={styles.container} onClick={setLoadingTrue}>
         <div className={styles.icon}>
           {icon[icons]}

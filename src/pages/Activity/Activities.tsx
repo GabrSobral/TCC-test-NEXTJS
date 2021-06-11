@@ -4,18 +4,18 @@ import { FiSmile, FiFrown } from 'react-icons/fi'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Offline, Online } from "react-detect-offline";
 
-import { ActivityItem } from '../components/ActivityItem'
-import { BottomMenu } from '../components/BottomMenu'
-import { Header } from '../components/header'
-import { LoadingStatus } from '../components/LoadingStatus'
+import { ActivityItem } from '../../components/ActivityItem'
+import { BottomMenu } from '../../components/BottomMenu'
+import { Header } from '../../components/header'
+import { LoadingStatus } from '../../components/LoadingStatus'
 
-import { useLoading } from '../contexts/LoadingIcon'
-import { useActivity } from '../contexts/ActivityContext'
+import { useLoading } from '../../contexts/LoadingIcon'
+import { useActivity } from '../../contexts/ActivityContext'
 
-import { api } from '../services/api'
-import { getMyData, updateMyActivities } from '../services/IndexedDB'
+import { api } from '../../services/api'
+import { getMyData, updateMyActivities } from '../../services/IndexedDB'
 
-import styles from '../styles/activities.module.scss'
+import styles from '../../styles/activities.module.scss'
 
 export default function Activities(){
   const [ isVisible, setIsVisible ] = useState(false)
