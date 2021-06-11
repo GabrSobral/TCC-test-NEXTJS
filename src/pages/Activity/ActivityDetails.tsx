@@ -41,7 +41,6 @@ export default function ActivitiyDetails(){
   const [ isModalRemoveVisible, setIsModalRemoveVisible ] = useState(false)
   const { isLoading, setLoadingFalse, setLoadingTrue } = useLoading()
   const { activities, setActivitiesState, setActivitiesTodayState, activitiesToday } = useActivity()
-
   
   const router = useRouter()
   const { title, description, icons, content, id } = router.query

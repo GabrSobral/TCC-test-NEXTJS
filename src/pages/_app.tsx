@@ -1,10 +1,12 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
+
 import { ActivityProvider } from '../contexts/ActivityContext'
 import { LoadingProvider } from '../contexts/LoadingIcon'
-import { api } from '../services/api'
 import { IndexedDB } from '../services/IndexedDB'
 import { getMyData } from '../services/IndexedDB'
+import { api } from '../services/api'
+
 import '../styles/global.scss'
 
 function MyApp({ Component, pageProps }) {

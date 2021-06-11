@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { FaLock, FaUnlock, FaSave } from 'react-icons/fa'
 import { motion } from 'framer-motion';
 
@@ -12,11 +12,13 @@ import { api } from '../../services/api'
 import styles from '../../styles/ForgotPassword.module.scss'
 
 export default function ForgotPassword() {
-  const [ email, setEmail ] = useState<string>('')
   const [ newPassword, setNewPassword ] = useState<string>('')
   const [ confirmNewPassword, setConfirmNewPassword ] = useState<string>('')
+
   const [ message, setMessage ] = useState<string>('')
   const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false)
+  const { email, token } = Router.query
+
   const { setLoadingTrue, isLoading, setLoadingFalse, closeLoading} = useLoading()
 
   setLoadingFalse()
@@ -27,19 +29,24 @@ export default function ForgotPassword() {
     Router.prefetch('/Home/Home')
   },[])
 
-  async function sendEmail(){
+  async function resetPassword(){
+    if(newPassword !== confirmNewPassword){
+      setMessage("Senhas não estão iguais!")
+      return
+    }
+
     setLoadingTrue()
 
-    await api.post('/reset-password', { email }).then(()=> {
+    await api.post('/reset-password', { email, token, password: newPassword }).then(()=> {
       setIsModalVisible(true)
       closeLoading()
     })
   }
   const memoizedModal = useMemo(()=>(
     <Modal
-      title="Enviado..."
-      description="Verifique a sua caixa de email principal ou spam."
-      keyModal="EmailSend"
+      title="Tudo resolvido..."
+      description="Sua senha foi alterada com sucesso, faça login para entrar"
+      keyModal="ResetPassword"
       isVisible={isModalVisible}
       setIsVisible={setIsModalVisible}
       yesAndNoButtons={false}
@@ -76,11 +83,11 @@ export default function ForgotPassword() {
   ),[message])
   
   const memoizedButton = useMemo(()=> (
-    <button type='button' onClick={sendEmail} disabled={email ? false : true}>
+    <button type='button' onClick={resetPassword} disabled={newPassword && confirmNewPassword ? false : true}>
       Confirmar
       <FaSave size={24}/>
     </button>
-  ),[ email ])
+  ),[ newPassword, confirmNewPassword ])
 
   return (
     <div className={styles.wrapper}>
