@@ -1,32 +1,30 @@
-import styles from './style.module.scss'
 import { FaTimes } from 'react-icons/fa'
 import Link from 'next/link'
+import Router from 'next/router'
+
 import { useLoading } from '../../contexts/LoadingIcon'
+
+import styles from './style.module.scss'
 
 interface headerProps{
   title : string,
-  button : string,
+  button?: string,
 }
 
 export function SignPageHeader({ title, button } : headerProps){
   const {setLoadingTrue} = useLoading()
-  
-  function closeWindow(){
-    window.opener = null;
-    window.open('', '_self');
-    window.close();
-  }
   return(
     <header className={styles.container}>
-      <button type='button' onClick={closeWindow}>
-        <FaTimes size={24}/>
-      </button>
+      {button && (
+        <button type='button' onClick={() => Router.back()}>
+          <FaTimes size={17}/>
+        </button>
+      )}
+      <h1>{title}</h1>
 
-    <h1>{title}</h1>
-
-    <Link href={button == 'Entrar' ? '/Login/SignIn' : '/'}>
-      <a onClick={setLoadingTrue}>{button}</a>
-    </Link>
+      <Link href={button == 'Entrar' ? '/Login/SignIn' : '/'}>
+        <a onClick={setLoadingTrue}>{button}</a>
+      </Link>
     </header>
   )
 }

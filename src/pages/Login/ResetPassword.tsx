@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Router from 'next/router'
-import { FaEnvelope, FaCheck } from 'react-icons/fa'
+import { FaLock, FaUnlock, FaSave } from 'react-icons/fa'
 import { motion } from 'framer-motion';
 
 import { SignPageHeader } from "../../components/SignPageHeader";
@@ -13,6 +13,8 @@ import styles from '../../styles/ForgotPassword.module.scss'
 
 export default function ForgotPassword() {
   const [ email, setEmail ] = useState<string>('')
+  const [ newPassword, setNewPassword ] = useState<string>('')
+  const [ confirmNewPassword, setConfirmNewPassword ] = useState<string>('')
   const [ message, setMessage ] = useState<string>('')
   const [ isModalVisible, setIsModalVisible ] = useState<boolean>(false)
   const { setLoadingTrue, isLoading, setLoadingFalse, closeLoading} = useLoading()
@@ -28,7 +30,7 @@ export default function ForgotPassword() {
   async function sendEmail(){
     setLoadingTrue()
 
-    await api.post('/forgot-password', { email }).then(()=> {
+    await api.post('/reset-password', { email }).then(()=> {
       setIsModalVisible(true)
       closeLoading()
     })
@@ -46,20 +48,28 @@ export default function ForgotPassword() {
   ),[isModalVisible])
 
   const memoizedHeader = useMemo(()=> (
-    <SignPageHeader title='Senha' button='Entrar'/>
+    <SignPageHeader title='Troca de senha'/>
   ),[])
 
   const memoizedTitle = useMemo(()=> (
-    <span className={styles.title}>Insira seu email para <br/> sabermos quem é você.</span>
+    <span className={styles.title}>Insira sua nova senha</span>
   ),[])
 
-  const memoizedEmail = useMemo(()=> (
-    <div className={!email ? styles.inputContainer : styles.inputContainerActive}>
-      <span>Email</span>
-      <input type='email' onChange={(event)=> setEmail(event.target.value)}/>
-      <FaEnvelope size={20} className={styles.icon}/>
+  const memoizedNewPassword = useMemo(()=> (
+    <div className={!newPassword ? styles.inputContainer : styles.inputContainerActive}>
+      <span>Nova senha</span>
+      <input type='password' onChange={(event)=> setNewPassword(event.target.value)}/>
+      <FaLock size={20} className={styles.icon}/>
     </div>
-  ),[ email ]) 
+  ),[])
+
+  const memoizedConfirmNewPassword = useMemo(()=> (
+    <div className={!newPassword ? styles.inputContainer : styles.inputContainerActive}>
+      <span>Confirme nova senha</span>
+      <input type='password' onChange={(event)=> setConfirmNewPassword(event.target.value)}/>
+      <FaUnlock size={20} className={styles.icon}/>
+    </div>
+  ),[])
 
   const memoizedMessage = useMemo(()=> (
     <span className={styles.warningText}>{message}</span>
@@ -68,7 +78,7 @@ export default function ForgotPassword() {
   const memoizedButton = useMemo(()=> (
     <button type='button' onClick={sendEmail} disabled={email ? false : true}>
       Confirmar
-      <FaCheck size={24}/>
+      <FaSave size={24}/>
     </button>
   ),[ email ])
 
@@ -85,7 +95,8 @@ export default function ForgotPassword() {
           {memoizedModal}
 
           {memoizedTitle}
-          {memoizedEmail}
+          {memoizedNewPassword}
+          {memoizedConfirmNewPassword}
 
           {memoizedMessage}
           {memoizedButton}
