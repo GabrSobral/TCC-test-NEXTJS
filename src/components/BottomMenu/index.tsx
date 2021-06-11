@@ -27,7 +27,7 @@ export function BottomMenu({ pageActive }: TabsProps){
       }
       case "me" : {
         if(pageActive !== "me"){
-          history.push("/Me")
+          history.push("/Me/Me")
           setLoadingTrue();
         } break;
       }

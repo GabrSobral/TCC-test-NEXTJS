@@ -4,18 +4,19 @@ import { AnimatePresence, motion, useTransform, useViewportScroll } from 'framer
 import { FiBook, FiLock, FiLogOut, FiSettings } from 'react-icons/fi';
 import { format } from 'date-fns'
 
-import { BottomMenu } from '../components/BottomMenu'
-import { Header } from '../components/header'
-import { LoadingStatus } from '../components/LoadingStatus';
-import { Modal } from '../components/Modal'
+import { BottomMenu } from '../../components/BottomMenu'
+import { Header } from '../../components/header'
+import { LoadingStatus } from '../../components/LoadingStatus';
+import { Modal } from '../../components/Modal'
 
-import { useLoading } from '../contexts/LoadingIcon';
-import { logout } from '../services/auth';
-import { getMyData } from '../services/IndexedDB';
-import { UserProps } from '../types/User';
+import { useLoading } from '../../contexts/LoadingIcon';
+import { logout } from '../../services/auth';
+import { getMyData } from '../../services/IndexedDB';
+import { UserProps } from '../../types/User';
 
 import 'react-circular-progressbar/dist/styles.css';
-import styles from '../styles/me.module.scss'
+import styles from '../../styles/me.module.scss'
+import Link from 'next/link';
 
 export default function Me(){
   const history = useRouter()
@@ -103,14 +104,20 @@ export default function Me(){
           animate={{ height: "fit-content"}}
           exit={{ height: 0 }}
         >
-          <div>
-            Alterar questionário
-            <FiBook size={20} color="#6f6b6b"/>
-          </div>
-          <div>
-            Alterar senha
-            <FiLock size={20} color="#6f6b6b"/>
-          </div>
+          <Link href="/Me/Me">
+            <button type="button">
+              Alterar questionário
+              <FiBook size={20} color="#6f6b6b"/>
+            </button>
+          </Link>
+          
+          <Link href="/Me/ChangePassword">
+            <button type="button">
+              Alterar senha
+              <FiLock size={20} color="#6f6b6b"/>
+            </button>
+          </Link>
+
         </motion.div>
       )}
       </AnimatePresence>

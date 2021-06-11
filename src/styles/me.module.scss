@@ -109,13 +109,15 @@
         .hiddenButtons{
           box-shadow: 1px 1px 10px inset rgba(0, 0, 0, 0.234);
 
-          div{
+          button{
+            width: 100%;
+            border: 0;
+            background: transparent;
             padding: 1.25rem 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
           }
-
         }
       }
 
