@@ -69,7 +69,7 @@ export function Header({ GoBackIsActive} : HeaderProps){
       </motion.div>
 
       <div className={styles.userImage}>
-        <button type="button">
+        <button type="button" onClick={()=> alert("Função em desenvolvimento, tente novamente mais tarde.")}>
           <img src={Urgent} alt="Urgencia de ansiedade" />
         </button>
       </div>

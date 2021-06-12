@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
     if(navigator.onLine){
       const { 
         _id,
-        allAtivitiesFinished,
+        allActivitiesFinished,
         myCurrentActivities,
         activityValidity,
         activitiesFinishedToday,
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
 
       await api.patch('/sync-my-data', {
         _id,
-        allAtivitiesFinished,
+        allActivitiesFinished,
         myCurrentActivities: ActivitiesID,
         activityValidity,
         activitiesFinishedToday,
@@ -43,10 +43,10 @@ function MyApp({ Component, pageProps }) {
     if("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
        navigator.serviceWorker.register("/sw.js").then(
-          function (registration) {
+          (registration) => {
             console.log("Service Worker registration successful with scope: ", registration.scope);
           },
-          function (err) {
+          (err) => {
             console.log("Service Worker registration failed: ", err);
           }
         );

@@ -2,7 +2,7 @@ export interface UserProps {
   _id: string;
   activitiesFinishedToday: number;
   activityValidity?: Date;
-  allAtivitiesFinished: number;
+  allActivitiesFinished: number;
   answers: string[];
   createdAt: Date | string;
   email: string;

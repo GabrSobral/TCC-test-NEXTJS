@@ -66,7 +66,7 @@ export default function SignIn(){
   ),[])
   const memoizedForgotPassword = useMemo(() => (
     <Link href="/Login/ForgotPassword">
-      <span className={styles.forgotPassword}>Esqueci minha senha</span>
+      <button onClick={()=> setLoadingTrue()} className={styles.forgotPassword}>Esqueci minha senha</button>
     </Link>
   ),[])
 

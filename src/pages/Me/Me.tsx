@@ -80,7 +80,7 @@ export default function Me(){
   const memoizedAllActivities = useMemo(()=>(
     <div className={styles.allActivitiesComplete}>
       <span>Atividades completas:</span>
-      <span>{user?.allAtivitiesFinished}</span>
+      <span>{user?.allActivitiesFinished}</span>
     </div>
   ),[user])
 
@@ -104,7 +104,7 @@ export default function Me(){
           animate={{ height: "fit-content"}}
           exit={{ height: 0 }}
         >
-          <Link href="/Me/Me">
+          <Link href="/Me/ChangeQuestionnaire">
             <button type="button">
               Alterar questionário
               <FiBook size={20} color="#6f6b6b"/>

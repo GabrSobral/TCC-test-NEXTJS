@@ -26,6 +26,8 @@
     font-weight: 500;
     font-size: 1.15rem;
     color: var(--blue-300);
+    padding: 0;
+    background: transparent;
     transition: transform 0.3s ease;
 
     &:active{

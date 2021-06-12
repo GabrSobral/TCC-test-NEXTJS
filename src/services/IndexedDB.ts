@@ -213,7 +213,7 @@ export function finishMyActivity(id : string){
           })
           user.myCurrentActivities = myActvityes
           user.activitiesFinishedToday += 1
-          user.allAtivitiesFinished += 1
+          user.allActivitiesFinished += 1
           
           objectStoreUser.put(user).onsuccess = () =>{
             console.log("IndexedDB conseguiu atualizar as atividades")
