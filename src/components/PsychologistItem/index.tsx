@@ -63,7 +63,7 @@ export function PsychologistItem({
         <span className={styles.locale}>Santos - SP</span>
 
         <Link 
-          href={`/PsychologistDetail?name=${name}&description=${description}${arrayToQueryString(psychologist, "psychologist")}${arrayToQueryString(opening_hours, "opening_hours")}&phone_number=${phone_number}&email=${email}&latitude=${latitude}&longitude=${longitude}`}
+          href={`/Psychologist/PsychologistDetail?name=${name}&description=${description}${arrayToQueryString(psychologist, "psychologist")}${arrayToQueryString(opening_hours, "opening_hours")}&phone_number=${phone_number}&email=${email}&latitude=${latitude}&longitude=${longitude}`}
         >
           <button type="button" onClick={setLoadingTrue}>
             <FiArrowRight size={32} color="#fff"/>
