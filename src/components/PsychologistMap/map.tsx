@@ -65,7 +65,7 @@ const MapLeafLet = ({ latitude, longitude, isChangeable, content }: MapProps) =>
               className={styles.mapPopup}
             >
               <span className={styles.clinicName}>{clinic.name}</span>
-              <Link href={`/PsychologistDetail?name=${clinic.name}&description=${clinic.description}${arrayToQueryString(clinic.psychologist, "psychologist")}${arrayToQueryString(clinic.opening_hours, "opening_hours")}&phone_number=${clinic.phone_number}&email=${clinic.email}&latitude=${clinic.latitude}&longitude=${clinic.longitude}`}>
+              <Link href={`/Psychologist/PsychologistDetail?name=${clinic.name}&description=${clinic.description}${arrayToQueryString(clinic.psychologist, "psychologist")}${arrayToQueryString(clinic.opening_hours, "opening_hours")}&phone_number=${clinic.phone_number}&email=${clinic.email}&latitude=${clinic.latitude}&longitude=${clinic.longitude}`}>
                 <button type='button' className={styles.mapPopupButton}>
                   <FiArrowRight size={20} color='#fff'/>
                 </button>

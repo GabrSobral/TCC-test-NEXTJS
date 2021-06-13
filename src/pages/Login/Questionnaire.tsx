@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { getMyData, updateMyQuestionnaire } from '../../services/IndexedDB';
 
 import { QuestionProps } from '../../types/Question';
+import { AnimationTypeState } from 'framer-motion/types/render/utils/animation-state';
 
 export default function Questionnaire({ data, questionsID }){
   const history = useRouter()
@@ -19,19 +20,15 @@ export default function Questionnaire({ data, questionsID }){
   const { isLoading, setLoadingTrue, setLoadingFalse } = useLoading()
   const [ questions, setQuestions ] = useState<QuestionProps[]>([])
 
-  const [ questionOne, setQuestionOne ] = useState<number>()
-  const [ questionTwo, setQuestionTwo ] = useState<number>()
-  const [ questionThree, setQuestionThree ] = useState<number>()
-  const [ questionFour, setQuestionFour ] = useState<number>()
-  const [ questionFive, setQuestionFive ] = useState<number>()
-  const [ questionSix, setQuestionSix ] = useState<number>()
-
-  const [ change, setChange ] = useState<any>(null)
+  const [ isFilled, setIsFilled ] = useState(false)
+  const [ allAnswers, setAllAnswers ] = useState([])
+  let count = 0
 
   setLoadingFalse()
 
   async function getMyDataAndVerifyIfIAlreadyAnsweredTheQuestionnaire(){
     const myData: any = await getMyData()
+    const nullArray = []
 
     if(myData.answers.length !== 0){
       history.replace('/Home')
@@ -39,26 +36,26 @@ export default function Questionnaire({ data, questionsID }){
     }
     setIsVisible(true)
     setQuestions(data)
-    history.prefetch('/Home')
-    history.prefetch("/Activities")
+
+    data.map(()=> nullArray.push(null))
+    setAllAnswers(nullArray)
+
+    history.prefetch('/Home/Home')
+    history.prefetch("/Activity/Activities")
   }
   useEffect(()=> {
     getMyDataAndVerifyIfIAlreadyAnsweredTheQuestionnaire()
   },[])
 
-  useEffect(()=> {
-    if(change == null){ return }
-    for (let i = 0; i < questionsID.length; i++) {
-      switch(String(change.name)){
-        case String(questionsID[0]) : setQuestionOne(change.value); break
-        case String(questionsID[1]) : setQuestionTwo(change.value); break
-        case String(questionsID[2]) : setQuestionThree(change.value); break
-        case String(questionsID[3]) : setQuestionFour(change.value); break
-        case String(questionsID[4]) : setQuestionFive(change.value); break
-        case String(questionsID[5]) : setQuestionSix(change.value); break
-      }
+  useEffect(() => {
+    console.log("entrou")
+    if(allAnswers.indexOf(null) === -1) {
+      setIsFilled(true)
+      console.log("Cheiooooo")
     }
-  },[change])
+  },[count]) 
+
+  useEffect(()=>{ console.log(allAnswers) }, [allAnswers])
 
   const memoizedHeader = useMemo(()=> (
     <Header GoBackIsActive={false}/>
@@ -69,22 +66,22 @@ export default function Questionnaire({ data, questionsID }){
 
   async function handleConfirm(){
     setLoadingTrue()
-    const allAnswersNumber = []
 
-    allAnswersNumber.push(Number(questionOne))
-    allAnswersNumber.push(Number(questionTwo))
-    allAnswersNumber.push(Number(questionThree))
-    allAnswersNumber.push(Number(questionFour))
-    allAnswersNumber.push(Number(questionFive))
-    allAnswersNumber.push(Number(questionSix))
+    console.log(allAnswers)
 
-    await api.post('/questionnaire', { answers : allAnswersNumber }).then(()=> {
-      updateMyQuestionnaire(allAnswersNumber)
-      return history.push("/Home")
-    }).catch((err)=>{
-      console.log(err.message)
-      return history.push("/Home")
-    })
+    // await api.post('/questionnaire', { answers : allAnswers }).then(()=> {
+    //   updateMyQuestionnaire(allAnswers)
+    //   return history.push("/Home/Home")
+    // }).catch((err)=>{
+    //   console.log(err.message)
+    //   return history.push("/Home/Home")
+    // })
+  }
+  function handleAnswersAndIndex(value: any , index: number){
+    allAnswers.splice(index, 1, value.target.value)
+    console.log(allAnswers)
+    setAllAnswers(allAnswers)
+    count++
   }
 
   return(
@@ -101,13 +98,12 @@ export default function Questionnaire({ data, questionsID }){
             {isLoading && (
               <LoadingStatus/>
             )}
-            {memoizedTitle
-            }
-            {questions.map(question => (
+            {memoizedTitle}
+            {questions.map((question, index) => (
               <div className={styles.questionItem} key={question._id}>
                 <span>{question.body}</span>
 
-                <div className={styles.answersContainer} onChange={(event: FormEvent<HTMLInputElement>) => setChange(event.target)}>
+                <div className={styles.answersContainer} onChange={(event: FormEvent<HTMLInputElement>) => { handleAnswersAndIndex(event, index) }}>
                   <div>
                     <input type="radio" id="answer-0" name={question._id} value="0"/>
                     <label htmlFor="answer-0">0</label>
@@ -159,15 +155,7 @@ export default function Questionnaire({ data, questionsID }){
               <button 
                 type="button" 
                 onClick={handleConfirm}
-                disabled={
-                  questionOne &&
-                  questionTwo &&
-                  questionThree &&
-                  questionFour &&
-                  questionFive &&
-                  questionSix 
-                  ? false : true
-              }
+                disabled={!isFilled}
               >
                 Continuar
               </button>

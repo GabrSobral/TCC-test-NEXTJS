@@ -193,7 +193,7 @@ export default function ActivitiyDetails(){
                 
                 {memoizedDetails}
 
-                {memoizedPlayer}
+                {/* {memoizedPlayer} */}
                 {memoizedButtonsControl}
               </motion.main>
             )}

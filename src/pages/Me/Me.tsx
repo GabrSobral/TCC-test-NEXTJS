@@ -22,7 +22,7 @@ export default function Me(){
   const history = useRouter()
   
   const [ isVisible, setIsVisible ] = useState(false)
-  const { isLoading, setLoadingFalse } = useLoading()
+  const { isLoading, setLoadingFalse, setLoadingTrue } = useLoading()
   const [ settingsIsVisible, setSettingsIsVisible ] = useState(false)
   const [ isLogoutModalVisible, setIsLogoutModalVisible ] = useState(false)
   const [ user, setUser ] = useState<UserProps>()
@@ -105,14 +105,14 @@ export default function Me(){
           exit={{ height: 0 }}
         >
           <Link href="/Me/ChangeQuestionnaire">
-            <button type="button">
+            <button type="button" onClick={()=> setLoadingTrue()}>
               Alterar questionário
               <FiBook size={20} color="#6f6b6b"/>
             </button>
           </Link>
           
           <Link href="/Me/ChangePassword">
-            <button type="button">
+            <button type="button" onClick={()=> setLoadingTrue()}>
               Alterar senha
               <FiLock size={20} color="#6f6b6b"/>
             </button>

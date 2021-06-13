@@ -93,7 +93,7 @@ export default function SignUp() {
     email.trim()
     
     if(password !== confirmPassword){
-      return setMessage("Sua confirmação de senha inválida!")
+      return setMessage("Sua confirmação de senha está inválida!")
     }
     setLoadingTrue()
 
@@ -108,7 +108,7 @@ export default function SignUp() {
         localStorage.setItem(NAME_KEY, firstName[0]);
         
         AuthenticateDB(response.data.user)
-        history.push('/Questionnaire')
+        history.push('/Login/Questionnaire')
       }
       storageData()
     }).catch(() => {
