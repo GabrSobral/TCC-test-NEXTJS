@@ -22,12 +22,13 @@ export default function Questionnaire({ data, questionsID }){
 
   const [ isFilled, setIsFilled ] = useState(false)
   const [ allAnswers, setAllAnswers ] = useState([])
-  let count = 0
+  const [ count, setCount ] = useState(0)
 
   setLoadingFalse()
 
   async function getMyDataAndVerifyIfIAlreadyAnsweredTheQuestionnaire(){
     const myData: any = await getMyData()
+  
     const nullArray = []
 
     if(myData.answers.length !== 0){
@@ -69,19 +70,20 @@ export default function Questionnaire({ data, questionsID }){
 
     console.log(allAnswers)
 
-    // await api.post('/questionnaire', { answers : allAnswers }).then(()=> {
-    //   updateMyQuestionnaire(allAnswers)
-    //   return history.push("/Home/Home")
-    // }).catch((err)=>{
-    //   console.log(err.message)
-    //   return history.push("/Home/Home")
-    // })
+    await api.post('/questionnaire', { answers : allAnswers }).then(()=> {
+      updateMyQuestionnaire(allAnswers)
+      return history.push("/Home/Home")
+    }).catch((err)=>{
+      console.log(err.message)
+      return history.push("/Home/Home")
+    })
   }
   function handleAnswersAndIndex(value: any , index: number){
-    allAnswers.splice(index, 1, value.target.value)
+    let answers = allAnswers
+
+    answers.splice(index, 1, value.target.value)
     console.log(allAnswers)
-    setAllAnswers(allAnswers)
-    count++
+    setAllAnswers(answers)
   }
 
   return(
