@@ -1,6 +1,7 @@
 # Carpe Diem PWA test
 
 This NextJS is a prototype PWA to my course, and was developed to test the integration with the another <a href="">API REST that I'm building<a>.
+  <p>You can access the Figma layout <a href="https://www.figma.com/file/48wWM8idKlMnF0noffDnBV/Carpe-Diem-PWA">clicking here</a></p>
   
 # Features
   - User can make a register on app, or login, if the account already exists.
