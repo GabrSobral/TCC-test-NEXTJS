@@ -10,14 +10,14 @@ This NextJS is a prototype PWA to my course, and was developed to test the integ
   - Clinics map, that user can use to see clinics near him.
   
 # Technologies
-  - ReactJS
-  - NextJS
+  - ReactJS <img alt="React" src="https://img.shields.io/badge/React-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB"/>
+  - NextJS <img alt="Next JS" src="https://img.shields.io/badge/NextJS-%23000000.svg?style=flat&logo=next.js&logoColor=white" />
   - Framer Motion
-  - Typescript
+  - Typescript <img alt="TypeScript" src="https://img.shields.io/badge/Typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white"/>
   - IndexedDB
   
 # Prerequisites
-  - NodeJs
+  - NodeJs <img alt="NodeJS" src="https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node-dot-js&logoColor=white"/>
   - A package manager( `npm` or `yarn` )
   
 # How to install
