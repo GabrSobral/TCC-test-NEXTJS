@@ -18,6 +18,7 @@ This NextJS is a prototype PWA to my course, and was developed to test the integ
   - Framer Motion
   - Typescript <img alt="TypeScript" src="https://img.shields.io/badge/Typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white"/>
   - IndexedDB
+  - Leaftlet
   
 # Prerequisites
   - NodeJs <img alt="NodeJS" src="https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node-dot-js&logoColor=white"/>
