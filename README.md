@@ -1,6 +1,6 @@
 # Carpe Diem PWA test
 
-This NextJS is a prototype PWA to my course, and was developed to test the integration with the another <a href="">API REST that I'm building<a>.
+This NextJS is a prototype PWA to my course, and was developed to test the integration with the another <a href="https://github.com/GabrSobral/TCC_API_Typescript">API REST that I'm building<a>.
   <p>You can access the Figma layout <a href="https://www.figma.com/file/48wWM8idKlMnF0noffDnBV/Carpe-Diem-PWA">clicking here</a></p>
   
   ![ProjectImage](https://github.com/GabrSobral/TCC-test-NEXTJS/blob/master/Landing.png?raw=true)
