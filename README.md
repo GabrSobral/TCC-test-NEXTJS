@@ -32,3 +32,6 @@ This NextJS is a prototype PWA to my course, and was developed to test the integ
   
    ## Step 3
   After install dependencies, run the `dev` comamnd, or if you want to use the production mode, run `build`, and then `start` command
+  
+  # Production
+  <a href="https://tcc-test-nextjs.vercel.app/">You can access the app hosted on Vercel clicking here<a>
